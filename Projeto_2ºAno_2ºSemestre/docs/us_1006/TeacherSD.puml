@@ -1,0 +1,90 @@
+@startuml
+actor Teacher
+database "CourseRepository" as CDB
+database "TeacherRepository" as TDB
+Teacher -> ShowTeachingCoursesUI : doShow
+activate ShowTeachingCoursesUI
+ShowTeachingCoursesUI -> ShowTeachingCoursesController : showTeachingCourses
+activate ShowTeachingCoursesController
+ShowTeachingCoursesController -> AuthorizationService : ensureAuthenticatedUserHasAnyOf
+activate AuthorizationService
+AuthorizationService -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService --> AuthorizationService
+deactivate AuthorizationService
+AuthorizationService -> AuthorizationService : () ->
+activate AuthorizationService
+create UnauthenticatedException
+AuthorizationService -> UnauthenticatedException : new
+activate UnauthenticatedException
+UnauthenticatedException --> AuthorizationService
+deactivate UnauthenticatedException
+AuthorizationService --> AuthorizationService
+deactivate AuthorizationService
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+AuthorizationService -> SystemUser : hasAny
+activate SystemUser
+SystemUser -> RoleSet : hasAssignment
+activate RoleSet
+RoleSet --> SystemUser
+deactivate RoleSet
+SystemUser --> AuthorizationService
+deactivate SystemUser
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+AuthorizationService -> SystemUser : email
+activate SystemUser
+SystemUser --> AuthorizationService
+deactivate SystemUser
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+create UnauthorizedException
+AuthorizationService -> UnauthorizedException : new
+activate UnauthorizedException
+UnauthorizedException -> UnauthorizedException : buildMessage
+activate UnauthorizedException
+UnauthorizedException --> UnauthorizedException
+deactivate UnauthorizedException
+UnauthorizedException --> AuthorizationService
+deactivate UnauthorizedException
+AuthorizationService --> ShowTeachingCoursesController
+deactivate AuthorizationService
+ShowTeachingCoursesController -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService --> ShowTeachingCoursesController
+deactivate AuthorizationService
+ShowTeachingCoursesController -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> ShowTeachingCoursesController
+deactivate UserSession
+ShowTeachingCoursesController -> SystemUser : email
+activate SystemUser
+SystemUser --> ShowTeachingCoursesController
+deactivate SystemUser
+ShowTeachingCoursesController -> TDB : findTeacherByEmail
+activate TDB
+TDB --> ShowTeachingCoursesController
+deactivate TDB
+ShowTeachingCoursesController -> Acronym : toString
+activate Acronym
+Acronym --> ShowTeachingCoursesController
+deactivate Acronym
+ShowTeachingCoursesController -> CourseManagementService : findTeachingCourses
+activate CourseManagementService
+CourseManagementService -> CDB : findTeachingCourses
+activate CDB
+CDB --> CourseManagementService
+deactivate CDB
+CourseManagementService --> ShowTeachingCoursesController
+deactivate CourseManagementService
+ShowTeachingCoursesController --> ShowTeachingCoursesUI
+deactivate ShowTeachingCoursesController
+return
+@enduml

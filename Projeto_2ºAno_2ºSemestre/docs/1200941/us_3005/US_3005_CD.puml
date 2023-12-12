@@ -1,0 +1,76 @@
+@startuml
+class HttpServerAjaxBoard {
+  - shareBoardController: ShareAShareBoardController
+  - postitcontroller: AddPostItController
+  - BASE_FOLDER: String
+  - sock: ServerSocket
+  - accessesCounter: int
+
+  + main(args: String[]): void
+  - incAccessesCounter(): void
+  + getBoardStandingInHtml(email: String): String
+}
+
+class ShareAShareBoardController {
+  - boardId: String
+  - sharePermissions: List<String>
+
+  + setBoardId(boardId: String): void
+  + getBoardId(): String
+  + addSharePermission(email: String): void
+  + removeSharePermission(email: String): void
+}
+
+class AddPostItController {
+  - boardId: String
+
+  + setBoardId(boardId: String): void
+  + getBoardId(): String
+  + addPostIt(postIt: PostIt): void
+  + removePostIt(postItId: String): void
+}
+class HttpAjaxLoginAndBoardRequest {
+  - baseFolder: String
+  - sock: Socket
+  - inS: DataInputStream
+  - outS: DataOutputStream
+  - username: String
+  - userSession: UserSession
+
+  + HttpAjaxLoginAndBoardRequest(s: Socket, f: String)
+  + run(): void
+  - authenticateUser(username: String, password: String): Optional<UserSession>
+}
+
+
+
+class PostIts {
+  - idPostIts: Long
+  - version: double
+  - postitstate: PostItState
+  - date: Calendar
+  - data: String
+  - numRows: NumRows
+  - numColumns: NumColumns
+  - author: SystemUserAuth
+  - sharedBoard: SharedBoard
+
+  + author(): SystemUserAuth
+  + idPostIts(): Long
+  + version(): double
+  + changeVersion(version: double): void
+  + sameAs(other: Object): boolean
+  + identity(): Long
+  + toString(): String
+  + numRows(): NumRows
+  + numColumns(): NumColumns
+  + sharedBoard(): SharedBoard
+  + date(): Calendar
+  + data(): String
+}
+HttpServerAjaxBoard "1" --> "1" HttpAjaxLoginAndBoardRequest
+HttpAjaxLoginAndBoardRequest "1" --> "1" ShareAShareBoardController
+HttpAjaxLoginAndBoardRequest "1" --> "1" AddPostItController
+AddPostItController "1" --> "1" PostIts
+
+@enduml

@@ -1,0 +1,98 @@
+@startuml
+participant Actor
+Actor -> ShowBoardHistoryUI : doShow
+activate ShowBoardHistoryUI
+ShowBoardHistoryUI -> ShowBoardHistoryUI : showBoards
+activate ShowBoardHistoryUI
+ShowBoardHistoryUI -> ShowBoardHistoryUI : buildBoardsMenu
+activate ShowBoardHistoryUI
+ShowBoardHistoryUI -> ShowBoardHistoryController : findBoardOwned
+activate ShowBoardHistoryController
+ShowBoardHistoryController -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService --> ShowBoardHistoryController
+deactivate AuthorizationService
+ShowBoardHistoryController -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> ShowBoardHistoryController
+deactivate UserSession
+ShowBoardHistoryController -> SystemUserAuth : email
+activate SystemUserAuth
+SystemUserAuth --> ShowBoardHistoryController
+deactivate SystemUserAuth
+ShowBoardHistoryController -> BoardRepository : findBoardOwned
+activate BoardRepository
+BoardRepository --> ShowBoardHistoryController
+deactivate BoardRepository
+ShowBoardHistoryController --> ShowBoardHistoryUI
+deactivate ShowBoardHistoryController
+ShowBoardHistoryUI --> ShowBoardHistoryUI
+deactivate ShowBoardHistoryUI
+ShowBoardHistoryUI --> ShowBoardHistoryUI
+deactivate ShowBoardHistoryUI
+ShowBoardHistoryUI -> ShowBoardHistoryController : showHistoryBoardPostIt
+activate ShowBoardHistoryController
+ShowBoardHistoryController -> PostItRepository : findPostItByBoardId
+activate PostItRepository
+PostItRepository --> ShowBoardHistoryController
+deactivate PostItRepository
+ShowBoardHistoryController --> ShowBoardHistoryUI
+deactivate ShowBoardHistoryController
+ShowBoardHistoryUI -> PostIts : data
+activate PostIts
+PostIts --> ShowBoardHistoryUI
+deactivate PostIts
+ShowBoardHistoryUI -> PostIts : numRows
+activate PostIts
+PostIts --> ShowBoardHistoryUI
+deactivate PostIts
+ShowBoardHistoryUI -> NumRows : numRows
+activate NumRows
+NumRows --> ShowBoardHistoryUI
+deactivate NumRows
+ShowBoardHistoryUI -> PostIts : numColumns
+activate PostIts
+PostIts --> ShowBoardHistoryUI
+deactivate PostIts
+ShowBoardHistoryUI -> NumColumns : numColumns
+activate NumColumns
+NumColumns --> ShowBoardHistoryUI
+deactivate NumColumns
+ShowBoardHistoryUI -> PostIts : author
+activate PostIts
+PostIts --> ShowBoardHistoryUI
+deactivate PostIts
+ShowBoardHistoryUI -> SystemUserAuth : email
+activate SystemUserAuth
+SystemUserAuth --> ShowBoardHistoryUI
+deactivate SystemUserAuth
+ShowBoardHistoryUI -> ShowBoardHistoryController : showHistoryBoardUsers
+activate ShowBoardHistoryController
+ShowBoardHistoryController -> BoardRepository : findUsersPresent
+activate BoardRepository
+BoardRepository --> ShowBoardHistoryController
+deactivate BoardRepository
+ShowBoardHistoryController --> ShowBoardHistoryUI
+deactivate ShowBoardHistoryController
+ShowBoardHistoryUI -> SystemUserAuth : email
+activate SystemUserAuth
+SystemUserAuth --> ShowBoardHistoryUI
+deactivate SystemUserAuth
+ShowBoardHistoryUI -> SystemUserAuth : name
+activate SystemUserAuth
+SystemUserAuth --> ShowBoardHistoryUI
+deactivate SystemUserAuth
+ShowBoardHistoryUI -> Name : fullName
+activate Name
+Name --> ShowBoardHistoryUI
+deactivate Name
+ShowBoardHistoryUI -> SystemUserAuth : name
+activate SystemUserAuth
+SystemUserAuth --> ShowBoardHistoryUI
+deactivate SystemUserAuth
+ShowBoardHistoryUI -> Name : shortName
+activate Name
+Name --> ShowBoardHistoryUI
+deactivate Name
+return
+@enduml

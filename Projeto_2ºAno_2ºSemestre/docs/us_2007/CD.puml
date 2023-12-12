@@ -1,0 +1,29 @@
+@startuml
+class AddQuestionsUI <<presentation>>{
++doShow()
+}
+
+class AddQuestionsController <<application>> {
++addQuestions(teacher input)
+}
+
+class AddQuestionsService <<application>> {
++addQuestions(teacher input)
+}
+
+class Question <<domain>> {
+
+}
+
+class QuestionsRepository <<repository>> {
++addQuestions(teacher input)
+
+}
+
+AddQuestionsUI --> AddQuestionsController
+AddQuestionsController --> AddQuestionsService
+AddQuestionsService --> Question
+AddQuestionsService --> QuestionsRepository
+
+
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor User
+
+rectangle "System" {
+    (As User, I want to view a list of participants in my meeting and their status) -- User
+}
+@enduml

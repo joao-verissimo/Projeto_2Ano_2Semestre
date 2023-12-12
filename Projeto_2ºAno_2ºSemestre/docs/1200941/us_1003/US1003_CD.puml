@@ -1,0 +1,57 @@
+@startuml
+class MainMenu {
+  + ManageCourseUI()
+}
+
+class ManageCourseUI {
+  + doShow()
+  + chooseOption()
+  + showOptionsMenu()
+  + showOptionsMenu()
+  + setHeadTeacher()
+  + removeTeacher()
+
+}
+
+class CourseManagementService {
+  + openEnrollment()
+  + closeEnrollment()
+  + setHeadTeacher()
+  + removeTeacher()
+  + removeStudent()
+  + appendStudent()
+  + findByCode()
+  + deactivateCourse()
+  + activateCourse()
+}
+
+class SetTeacherManagementService {
+  + findByAcronym()
+}
+
+class StudentManagementService {
+  + findById()
+}
+
+class CourseRepository {
+  + findByCode()
+  + openEnrollment()
+  + closeEnrollment()
+  + setHeadTeacher()
+  + removeTeacher()
+  + removeStudent()
+  + appendStudent()
+  + save()
+}
+class TeacherRepository {
+  + findByAcronym()
+}
+
+MainMenu --|> ManageCourseUI
+ManageCourseUI --|> CourseManagementService
+ManageCourseUI --|> SetTeacherManagementService
+ManageCourseUI --|> StudentManagementService
+CourseManagementService --|> CourseRepository
+SetTeacherManagementService --|> TeacherRepository
+StudentManagementService --|> CourseRepository
+@enduml

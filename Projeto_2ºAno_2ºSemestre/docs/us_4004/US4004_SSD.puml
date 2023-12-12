@@ -1,0 +1,14 @@
+@startuml
+autonumber
+actor "User" as U
+participant ":System" as SYS
+
+
+activate U
+U -> SYS : As User, I want to view a list of participants in my meeting and their status (accept or reject)
+activate SYS
+SYS --> U : Shows the list of participants in a meeting
+deactivate SYS
+deactivate U
+
+@enduml

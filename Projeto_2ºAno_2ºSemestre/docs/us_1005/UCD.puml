@@ -1,0 +1,8 @@
+@startuml
+
+:Manager: as Manager
+
+Manager -> (Set the teachers of a course )
+
+
+@enduml

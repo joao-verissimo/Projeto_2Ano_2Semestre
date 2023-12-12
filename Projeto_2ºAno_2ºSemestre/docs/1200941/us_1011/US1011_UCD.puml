@@ -1,0 +1,12 @@
+@startuml
+actor Teacher
+left to right direction
+rectangle {
+  usecase "Create Extra Class" as UC1
+  usecase "Show my Extra Class" as UC2
+}
+
+Teacher --> UC1
+Teacher --> UC2
+
+@enduml

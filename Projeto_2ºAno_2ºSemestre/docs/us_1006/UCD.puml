@@ -1,0 +1,8 @@
+@startuml
+
+:User: as User
+
+User -> (List all the courses that are available to me)
+
+
+@enduml

@@ -1,0 +1,71 @@
+@startuml
+autonumber
+actor "User" as U
+participant "CancelMeetingUI" as UI
+participant "CancelMeetingController" as CTL
+participant "AuthorizationService" as AS
+participant "Persistence Context" as PC
+participant "RepositoryFactory" as RF
+participant "JpaMeetingRepository" as JPAM
+database "MeetingRepository" as MRPS
+database "MeetingALRepository" as MALRPS
+
+activate U
+U -> UI : want to cancel a meeting
+activate UI
+UI -> CTL : CancelMeetingController()
+activate CTL
+CTL -> AS : userService()
+activate AS
+CTL -> PC :repositories()
+deactivate AS
+activate PC
+PC -> RF :getRepositoryFactory()
+activate RF
+RF -> MRPS : meetingRepository()
+deactivate RF
+activate MRPS
+PC --> CTL : factory
+deactivate CTL
+deactivate MRPS
+deactivate PC
+deactivate RF
+UI -> CTL : userMeetings()
+activate CTL
+CTL -> JPAM : userMeetings(String email)
+activate JPAM
+JPAM -> MRPS : query()
+activate MRPS
+MRPS --> JPAM : returns list
+deactivate MRPS
+JPAM --> CTL : returns list
+deactivate JPAM
+CTL --> UI : returns list
+deactivate CTL
+UI --> U : asks what meeting user wants to cancel
+deactivate UI
+
+
+U -> UI : chooses meeting to cancel
+activate UI
+UI -> CTL : cancelMeeting(idMeeting)
+activate CTL
+CTL -> JPAM : cancelMeeting(idMeeting)
+deactivate CTL
+activate JPAM
+JPAM -> MRPS : query()
+activate MRPS
+JPAM -> MALRPS : query()
+deactivate JPAM
+activate MALRPS
+deactivate MRPS
+
+alt exception is thrown
+    UI --> U : Informs that an error has occurred
+    deactivate MALRPS
+else
+    UI --> U : Informs the meeting was canceled
+end alt
+deactivate UI
+deactivate U
+@enduml

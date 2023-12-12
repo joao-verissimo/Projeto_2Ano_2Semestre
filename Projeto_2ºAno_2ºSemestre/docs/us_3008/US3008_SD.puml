@@ -1,0 +1,75 @@
+@startuml
+autonumber
+actor "User" as U
+participant "UndoPostItUI" as UI
+participant TCPClient
+participant TCPServer
+participant "UndoPostItController" as undoCTL
+participant "ModifyPostItController" as CTL
+participant "AuthorizationService" as AS
+participant "BoardManagementService" as BS
+participant "Persistence Context" as PC
+participant "RepositoryFactory" as RF
+participant "JpaBoardRepository" as JPAB
+participant "JpaPostItRepository" as JPAPI
+database "BoardRepository" as BR
+database "PostItRepository" as PIR
+
+activate U
+U -> UI : want to undo a post it
+activate UI
+UI -> TCPClient : want to undo a post it
+activate TCPClient
+TCPClient -> TCPServer : request
+activate TCPServer
+TCPServer -> CTL : findBoardPresent(email)
+activate CTL
+CTL -> AS : userService()
+activate AS
+CTL -> PC :repositories()
+deactivate AS
+activate PC
+PC -> RF :getRepositoryFactory()
+activate RF
+RF -> MRPS : boardRepository()
+deactivate RF
+activate MRPS
+PC --> CTL : factory
+deactivate MRPS
+deactivate PC
+deactivate CTL
+TCPServer --> TCPClient : returns boards
+deactivate TCPServer
+TCPClient --> UI : returns boards
+deactivate TCPClient
+UI --> U : shows boards
+deactivate UI
+U -> UI : Choose board and insert row and column of post-it
+activate UI
+UI -> TCPClient : request to undo post-it
+activate TCPClient
+TCPClient -> TCPServer : request to undo post-it
+activate TCPServer
+TCPServer -> undoCTL : undoPostIt(email, message[0], message[1], message[2])
+activate undoCTL
+undoCTL -> BS : undoPostIt(email, Integer.parseInt(row), Integer.parseInt(column), Integer.parseInt(idBoard.replaceAll("[^a-zA-Z0-9@:.\n]", ""))
+activate BS
+BS -> JPAPI : undoPostIt(email, row, column, idBoard)
+activate JPAPI
+JPAPI -> PIR : query()
+activate PIR
+JPAPI -> PIR : query()
+deactivate PIR
+deactivate JPAPI
+BS --> undoCTL : returns boolean
+deactivate BS
+undoCTL --> TCPServer : returns boolean
+deactivate undoCTL
+TCPServer --> TCPClient : informs if operation was successful or not
+deactivate TCPServer
+TCPClient --> UI : informs if operation was successful or not
+deactivate TCPClient
+UI --> U : informs if operation was successful or not
+deactivate UI
+deactivate U
+@enduml

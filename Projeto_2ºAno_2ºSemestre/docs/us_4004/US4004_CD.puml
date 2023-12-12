@@ -1,0 +1,113 @@
+@startuml
+class User {
+}
+
+class MeetingRepository {
+    +findMaxId() : long
+    +cancelMeeting(long idMeet) : void
+    +userMeetings(String email) : List<Meeting>
+    +allUserMeetings(String email) : List<Meeting>
+}
+
+class MeetingALRepository {
+    +verifyAndNotify(List<SystemUser> users, Meeting meeting) : boolean
+    +alterStateA(SystemUser user) : MeetingAccessList
+    +alterStateD(SystemUser user) : MeetingAccessList
+    +usersState(Meeting meet) : List<MeetingAccessList>
+}
+
+class StatusParticipantsUI {
+    -CancelMeetingController controller
+    +doShow() : boolean
+    +headline() : String
+}
+
+class MeetingParticipantsController {
+    -MeetingRepository mr
+    -MeetingALRepository malr
+    -AuthorizationService authorizationService
+    +userMeetings() : List<Meeting>
+    +meetingParticipants(Meeting meet) : List<MeetingAccessList>
+}
+
+class MeetingAccessList {
+    - Long idAccessList
+    - SystemUser user
+    - InviteState inviteState
+    - Meeting meeting
+    + setInviteState(InviteState inviteState) : void
+    + getIdAccessList() : long
+    + getUser() : SystemUser
+    + getInviteState() : InviteState
+    + getMeeting() : Meeting
+    + sameAs(Object other) : boolean
+    + identity() : Code
+}
+
+class Meeting {
+    - Long idMeeting
+    - Duration duration
+    - TimeMeeting timeMeeting
+    - Date date
+    - SystemUser creator
+    + idMeeting() : Long
+    + duration() : Duration
+    + timeMeeting() : TimeMeeting
+    + date() : Date
+    + sameAs(Object other) : boolean
+    + identity() : long
+}
+
+class Duration {
+    - String duration
+    + duration() : String
+}
+
+class TimeMeeting {
+    - String time
+    + timeMeeting() : String
+}
+
+class Date {
+    - String date
+    + duration() : String
+    + isValidDate(String date) : boolean
+    + setDate(String date) : void
+}
+
+class InviteState {
+    - Occupied
+    - Sent
+    - Accepted
+    - Denied
+}
+
+class SystemUser{
+    - long serialVersionUID = 1L
+    - Long version
+    - EmailAddress email
+    - Password password
+    - Name name
+    - RoleSet roles
+    - Calendar createdOn
+    - boolean active
+    - Calendar deactivatedOn
+    - Calendar activatedOn
+    - String resetToken
+    + email() : EmailAddress
+}
+
+User --> StatusParticipantsUI
+StatusParticipantsUI --> MeetingParticipantsController
+MeetingParticipantsController --> MeetingRepository
+MeetingParticipantsController --> MeetingALRepository
+MeetingRepository --> Meeting
+Meeting --> Duration
+Meeting --> TimeMeeting
+Meeting --> Date
+Meeting --> SystemUser
+MeetingAccessList --> Meeting
+MeetingAccessList --> SystemUser
+MeetingAccessList --> InviteState
+MeetingALRepository --> MeetingAccessList
+@enduml

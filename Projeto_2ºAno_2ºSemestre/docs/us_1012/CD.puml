@@ -1,0 +1,92 @@
+@startuml
+class Teacher {
+  - id: Long
+  - name: String
+  - email: String
+  - // other attributes and methods
+}
+
+class UpadateClassUI {
+  + doShow()
+  + myClassMenu()
+  + showDays()
+  + buildDaysMenu()
+  + // other methods and attributes
+}
+
+class UpdateClassController {
+  + showMyClasses()
+  + updateClass()
+  + ensureAuthenticatedUserHasAnyOf()
+  + // other methods and attributes
+}
+
+class UpdateClassService {
+  + showMyClasses()
+  + findClassById()
+  + update()
+  + isBetween()
+  + areAllTrue()
+  + // other methods and attributes
+}
+
+class UserSession {
+  - authenticatedUser
+  + // other attributes and methods
+}
+
+class SystemUser {
+  - email: String
+  + hasAny()
+  + // other methods and attributes
+}
+
+class Acronym {
+  + toString()
+  + // other methods and attributes
+}
+
+class TeacherRepository {
+  + findTeacherByEmail()
+  + // other methods and attributes
+}
+
+class ClassRepository {
+  + findAllClassesByAcronym()
+  + findClassById()
+  + setUpdateClass()
+  + // other methods and attributes
+}
+
+
+
+class DayOfTheWeek {
+  + // attributes and methods
+}
+
+class Duration {
+  + // attributes and methods
+}
+
+class Class {
+  - id: Long
+  - // other attributes and methods
+}
+
+Teacher -- UpadateClassUI
+UpadateClassUI -- UpdateClassController
+UpdateClassController -- UpdateClassService
+
+UpdateClassService -- UserSession
+UpdateClassService -- SystemUser
+UpdateClassService -- TeacherRepository
+UpdateClassService -- Acronym
+UpdateClassService -- ClassRepository
+UpdateClassService -- DayOfTheWeek
+UpdateClassService -- Duration
+UpdateClassService -- Class
+
+ClassRepository -- UpdateClassController
+TeacherRepository -- UpdateClassService
+
+@enduml

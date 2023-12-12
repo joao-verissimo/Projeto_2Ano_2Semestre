@@ -1,0 +1,48 @@
+@startuml
+actor User as user
+participant TCPClient as tcpC
+participant TCPServer as tcpS
+participant "ShareAShareBoardUi" as ui<< presentation >>
+participant "ShareAShareBoardController" as ctrl <<application>>
+participant "BoardManagementService" as svc <<application>>
+database "BoardRepository" as repoB <<repository>>
+database "UserRepository" as repoU <<repository>>
+
+user --> tcpC
+autonumber 20 "<font color=black><b>Message 0  "
+tcpC -> tcpS
+autonumber stop
+tcpS -> ctrl : findOwnedBoard(email)
+ctrl -> repoB :findOwnedBoard(email)
+repoB -> ctrl
+ctrl -> tcpS
+autonumber 21 "<font color=black><b>Message 0  "
+tcpC -> tcpS
+autonumber stop
+tcpS -> ctrl : findActiveUsers()
+ctrl -> repoU : findActiveUsers()
+repoU -> ctrl
+ctrl -> tcpS
+autonumber 22 "<font color=black><b>Message 0  "
+tcpC -> tcpS
+autonumber stop
+tcpS -> ui : chooseState()
+
+ui -> tcpC
+autonumber 23 "<font color=black><b>Message 0  "
+tcpC -> tcpS
+autonumber stop
+tcpS -> ctrl : appendNewUser(board, user, state)
+ctrl -> svc : appendNewUser(board, user, state)
+svc -> repoU : findUserByEmail(email)
+repoU -> svc
+svc -> repoB : findBoardById(boardId)
+repoB -> svc
+svc -> repoB: appendNewUser(board, user, state)
+repoB -> svc
+svc -> ctrl
+ctrl -> tcpS
+tcpS -> tcpC
+tcpC --> user
+
+@enduml

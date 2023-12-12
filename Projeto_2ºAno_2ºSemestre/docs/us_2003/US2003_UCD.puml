@@ -1,0 +1,9 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor Teacher
+
+rectangle "System" {
+    (As Teacher, I want to view a list of all exams in a course) -- Teacher
+}
+@enduml

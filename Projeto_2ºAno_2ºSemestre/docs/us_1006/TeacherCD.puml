@@ -1,0 +1,53 @@
+@startuml
+class Teacher {
+  - id: int
+  - name: String
+  - email: String
+  + getId(): int
+  + getName(): String
+  + getEmail(): String
+}
+
+class CourseRepository {
+  + findTeachingCourses(teacherId: int): List<Course>
+}
+
+class TeacherRepository {
+  + findTeacherByEmail(email: String): Teacher
+}
+
+class ShowTeachingCoursesUI {
+  + doShow(): void
+}
+
+class ShowTeachingCoursesController {
+  + showTeachingCourses(): void
+}
+
+class Acronym {
+  + toString(): String
+}
+
+class CourseManagementService {
+  + findTeachingCourses(teacherId: int): List<Course>
+}
+
+class Course {
+  - id: int
+  - name: String
+  - acronym: Acronym
+  + getId(): int
+  + getName(): String
+  + getAcronym(): Acronym
+}
+
+
+Teacher --> TeacherRepository: uses
+Course --> CourseRepository : uses
+ShowTeachingCoursesUI --> ShowTeachingCoursesController: calls
+ShowTeachingCoursesController --> TeacherRepository: uses
+ShowTeachingCoursesController --> Acronym: uses
+ShowTeachingCoursesController --> CourseManagementService: uses
+CourseManagementService --> CourseRepository: uses
+ShowTeachingCoursesUI <-- ShowTeachingCoursesController: returns
+@enduml

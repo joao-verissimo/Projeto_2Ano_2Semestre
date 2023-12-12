@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence">
+  <persistence-unit name="eapli.base">
+    <!--
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    -->
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+    <class>domain.model.SystemUserAuth</class>
+    <class>domain.model.Role</class>
+    <class>domain.model.RoleSetAuth</class>
+    <class>domain.model.RoleAssignmentAuth</class>
+    <class>eapli.base.clientusermanagement.domain.ClientUser</class>
+    <class>eapli.base.clientusermanagement.domain.SignupRequest</class>
+    <class>eapli.base.classmanagement.domain.Class</class>
+    <class>eapli.base.coursemanagement.domain.Course</class>
+    <class>eapli.base.enrollmentmanagement.domain.Enrollment</class>
+    <class>eapli.base.studentmanagement.domain.Student</class>
+    <class>eapli.base.teachermanagement.domain.Teacher</class>
+    <class>eapli.base.teachermanagement.domain.Teacher</class>
+    <class>eapli.base.exammanagement.domain.Exam</class>
+    <class>eapli.base.managermanagement.domain.Manager</class>
+    <class>eapli.base.BoardManagement.domain.PostIts</class>
+    <class>eapli.base.BoardManagement.domain.SharedBoard</class>
+    <class>eapli.base.exammanagement.domain.Question</class>
+    <class>eapli.base.classmanagement.domain.ExtraClass</class>
+    <class>eapli.base.MeetingManagement.domain.Meeting</class>
+    <class>eapli.base.MeetingManagement.domain.MeetingAccessList</class>
+    <class>eapli.base.exammanagement.domain.Evaluation</class>
+
+    <properties>
+      <!--<property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/base"/>-->
+      <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://vsgate-s2.dei.isep.ipp.pt:10706/g45;MV_STORE=FALSE;AUTO_SERVER=true;"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
+      <property name="javax.persistence.jdbc.password" value="eapli"/>
+      <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+      <!-- <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/> -->
+      <!-- <property name="eclipselink.logging.level" value="FINE"/> -->
+      <!-- <property name = "hibernate.show_sql" value = "true" /> -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+
+    </properties>
+  </persistence-unit>
+</persistence>

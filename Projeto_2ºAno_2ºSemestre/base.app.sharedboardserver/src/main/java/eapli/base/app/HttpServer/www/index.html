@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>BoardViewer</title>
+    <style>
+        body {
+            background-color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #3d4550;
+        }
+        h3 {
+            color: #7f8fa5;
+        }
+
+        form {
+            display: inline-block;
+            text-align: left;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 250px;
+            padding: 5px;
+            border: 1px solid #999;
+            border-radius: 3px;
+        }
+
+        button[type="submit"] {
+            display: block; /* Add this line */
+            margin: 0 auto; /* Add this line */
+            padding: 10px 20px;
+            background-color: #3d4550;
+            color: #FFF;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        #votes {
+            margin-top: 20px;
+            color: #666;
+        }
+    </style>
+    <script src="login.js"></script>
+    <script src="rcomp-ajax.js"></script>
+    <script src="Boards-ajax.js"></script>
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Board Viewer</h1>
+<h3>Java version</h3>
+<form id="loginForm" onsubmit="submitLoginForm(event)">
+    <label for="username">E-mail:</label>
+    <input type="text" id="username" name="username" required><br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <input type="checkbox" onclick="togglePasswordVisibility()"> <br><br>
+    <button type="submit">Login</button>
+</form>
+<div id="votes" style="display: none">
+    Please wait, loading voting results ...
+</div>
+</body>
+</html>

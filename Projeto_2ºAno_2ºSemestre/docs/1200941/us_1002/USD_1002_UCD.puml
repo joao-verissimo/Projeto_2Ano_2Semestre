@@ -1,0 +1,12 @@
+@startuml
+actor Manager
+left to right direction
+rectangle "Course Management" {
+  usecase "Create Course" as UC1
+  usecase "List Courses" as UC2
+}
+
+Manager --> UC1
+Manager --> UC2
+
+@enduml

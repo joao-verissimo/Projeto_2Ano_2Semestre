@@ -1,0 +1,36 @@
+@startuml
+class Manager {
+}
+
+class ShowAllCoursesUI {
+    +displayCourses() : void
+}
+
+class ListCourseController {
+    +listCourses() : void
+}
+
+class Course {
+    -Code : int
+    -name : string
+    -description : string
+    -capacity : int
+    -state : boolean
+    +Course(Code: int, name: string, description: string, Capacity: int,state: boolean)
+    +getCode() : int
+    +getName() : string
+    +getDescription() : string
+    +getCapacity() : int
+    +toString() : string
+}
+
+class CourseRepository {
+    +findAll() : List<Course>
+}
+
+Manager --> ShowAllCoursesUI : shows
+ShowAllCoursesUI --> ListCourseController : requests course list
+ListCourseController --> CourseRepository : retrieves course data
+ListCourseController --> ShowAllCoursesUI : returns course list
+ShowAllCoursesUI --> Course : displays course details
+@enduml

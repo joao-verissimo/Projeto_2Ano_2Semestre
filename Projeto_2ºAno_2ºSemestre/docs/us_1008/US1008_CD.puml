@@ -1,0 +1,159 @@
+@startuml
+class Actor
+
+class RequestEnrollmentUI {
+  +doShow()
+  +listCourses()
+  +enrollStudent()
+}
+
+class EnrollmentBuilder {
+  +new()
+  +enrollStudent()
+}
+
+class AuthzRegistry {
+  +authorizationService()
+  +nonNull()
+}
+
+
+class AuthorizationService {
+  +ensureAuthenticatedUserHasAnyOf()
+  +session()
+  +info()
+}
+
+class Logger {
+  +info()
+}
+
+class UnauthenticatedException {
+  +new()
+}
+
+class Optional {
+  +ofNullable()
+  +orElseThrow()
+  +get()
+}
+
+class UserSession
+
+class SystemUser {
+  +hasAny()
+  +email()
+}
+
+class RoleSet {
+  +hasAssignment()
+}
+
+class RoleAssignment {
+  +isExpired()
+  +isOf()
+}
+
+class CourseRepository {
+  +findAll()
+}
+
+class Course {
+  +getValue()
+  +toString()
+}
+
+class Code {
+  +getValue()
+}
+
+class Title {
+  +getValue()
+}
+
+class Name {
+  +getValue()
+}
+
+class Description {
+  +getValue()
+}
+
+class Capacity {
+  +getValue()
+}
+
+class Enum {
+  +toString()
+}
+
+class Object {
+  +toString()
+}
+
+class PrintStream {
+  +println()
+}
+
+class Console {
+  +readInteger()
+}
+
+class Iterable {
+  +iterator()
+}
+
+class Iterator {
+  +hasNext()
+  +next()
+}
+
+class StudentRepository {
+  +findStudentByEmail()
+}
+
+class EmailAddress {
+  +toString()
+}
+
+class DomainRepository {
+  +save()
+}
+
+class Enrollment {
+  +new()
+}
+
+Actor --> RequestEnrollmentUI
+RequestEnrollmentUI --> EnrollmentBuilder
+RequestEnrollmentUI --> ListCourseController
+EnrollmentBuilder --> AuthzRegistry
+EnrollmentBuilder --> AuthorizationService
+EnrollmentBuilder --> UserSession
+EnrollmentBuilder --> SystemUser
+EnrollmentBuilder --> EmailAddress
+EnrollmentBuilder --> StudentRepository
+EnrollmentBuilder --> Enrollment
+EnrollmentBuilder --> DomainRepository
+RequestEnrollmentUI --> CourseRepository
+RequestEnrollmentUI --> PrintStream
+RequestEnrollmentUI --> Console
+RequestEnrollmentUI --> Iterable
+RequestEnrollmentUI --> Iterator
+Optional --> AuthorizationService
+UnauthenticatedException --> AuthorizationService
+SystemUser --> RoleSet
+RoleSet --> RoleAssignment
+AuthorizationService --> Logger
+UnauthorizedException --> SystemUser
+UnauthorizedException --> RuntimeException
+AuthorizationService --> UnauthorizedException
+CourseRepository --> Course
+Course --> Code
+Course --> Title
+Course --> Name
+Course --> Description
+Course --> Capacity
+Course --> Enum
+Course --> Object
+@enduml

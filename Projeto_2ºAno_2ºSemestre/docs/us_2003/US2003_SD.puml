@@ -1,0 +1,67 @@
+@startuml
+autonumber
+actor "Teacher" as T
+participant "ListExamsCourseUI" as UI
+participant "ListExamsCourseController" as CTL
+participant "ListExamsCourseService" as SV
+participant "Persistence Context" as PC
+participant "RepositoryFactory" as RF
+participant "JpaExamRepository" as JPA
+database "ExamRepository" as EPS
+
+
+T -> UI : want to view a list of all exams in a course
+activate T
+activate UI
+UI -> CTL : ListExamsController()
+activate CTL
+CTL -> SV : ListExamsService()
+activate SV
+SV -> PC :repositories()
+activate PC
+PC -> RF :getRepositoryFactory()
+activate RF
+RF -> EPS : exams()
+activate EPS
+PC --> SV :factory
+deactivate PC
+deactivate RF
+deactivate EPS
+deactivate SV
+UI --> T : asks for course
+deactivate UI
+deactivate CTL
+T -> UI : introduces course
+activate UI
+UI -> CTL : listAllExams(course)
+activate CTL
+
+CTL -> SV : listAllExams(course)
+activate SV
+SV -> JPA : findByCourse(course)
+activate JPA
+JPA -> EPS : findAll()
+activate EPS
+deactivate EPS
+loop
+    opt if exam is in course
+    JPA -> JPA : listCourse.add(exam)
+    end opt
+end loop
+JPA --> SV : returns list
+deactivate JPA
+SV --> CTL : return list
+deactivate SV
+CTL --> UI : return list
+deactivate CTL
+alt list is not empty
+loop
+UI --> T : Prints info of the exam
+end
+else
+UI --> T : Informs that there are no exams or the course does not exist.
+end alt
+deactivate UI
+deactivate T
+
+@enduml

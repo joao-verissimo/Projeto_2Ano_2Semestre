@@ -1,0 +1,71 @@
+@startuml
+participant Actor
+Actor -> TakeExamUI : doShow
+activate TakeExamUI
+TakeExamUI -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService --> TakeExamUI
+deactivate AuthorizationService
+TakeExamUI -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> TakeExamUI
+deactivate UserSession
+TakeExamUI -> SystemUserAuth : email
+activate SystemUserAuth
+SystemUserAuth --> TakeExamUI
+deactivate SystemUserAuth
+TakeExamUI -> PersistenceContext : repositories
+activate PersistenceContext
+PersistenceContext -> Application : settings
+activate Application
+Application --> PersistenceContext
+deactivate Application
+PersistenceContext --> TakeExamUI
+deactivate PersistenceContext
+TakeExamUI -> RepositoryFactory : students
+activate RepositoryFactory
+RepositoryFactory --> TakeExamUI
+deactivate RepositoryFactory
+TakeExamUI -> StudentRepository : findStudentByEmail
+activate StudentRepository
+StudentRepository --> TakeExamUI
+deactivate StudentRepository
+TakeExamUI -> NextExamsController : nextExams
+activate NextExamsController
+NextExamsController -> NextExamsService : nextExams
+activate NextExamsService
+NextExamsService -> StudentRepository : nextExams
+activate StudentRepository
+StudentRepository --> NextExamsService
+deactivate StudentRepository
+NextExamsService --> NextExamsController
+deactivate NextExamsService
+NextExamsController --> TakeExamUI
+deactivate NextExamsController
+TakeExamUI -> TakeExamUI : displayAvailableExams
+activate TakeExamUI
+TakeExamUI --> TakeExamUI
+deactivate TakeExamUI
+TakeExamUI -> TakeExamUI : chooseExam
+activate TakeExamUI
+TakeExamUI --> TakeExamUI
+deactivate TakeExamUI
+TakeExamUI -> TakeExamUI : answerQuestions
+activate TakeExamUI
+TakeExamUI --> TakeExamUI
+deactivate TakeExamUI
+TakeExamUI -> EvaluationController : createEvaluationStudent
+activate EvaluationController
+EvaluationController -> EvaluationService : createEvaluationStudent
+activate EvaluationService
+create Evaluation
+EvaluationService -> Evaluation : new
+activate Evaluation
+Evaluation --> EvaluationService
+deactivate Evaluation
+EvaluationService --> EvaluationController
+deactivate EvaluationService
+EvaluationController --> TakeExamUI
+deactivate EvaluationController
+return
+@enduml

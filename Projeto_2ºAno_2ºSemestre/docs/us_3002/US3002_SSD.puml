@@ -1,0 +1,14 @@
+@startuml
+autonumber
+actor "User" as U
+participant ":System" as SYS
+
+
+activate U
+U ->SYS : Want to create a board
+activate SYS
+SYS --> U : Informs if the board was created with success or not
+deactivate SYS
+deactivate U
+
+@enduml

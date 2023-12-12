@@ -1,0 +1,9 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor User
+
+rectangle "System" {
+    (As User, I want to undo the last change in a post-it) -- User
+}
+@enduml

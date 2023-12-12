@@ -1,0 +1,116 @@
+@startuml
+class Actor
+
+class EvaluateEnrollmentsUI {
+  +doShow()
+}
+
+class EnrollmentConsulterService {
+  +listEnrollments()
+}
+
+class DomainRepository {
+  +findAll()
+  +save()
+}
+
+class PrintStream {
+  +println()
+  +printf()
+}
+
+class Enrollment {
+  +getState()
+  +getId()
+  +getStudent()
+  +getCourse()
+}
+
+class Enum {
+  +equals()
+}
+
+class Student {
+  +getMecanographicNumber()
+}
+
+class Course {
+  +getCode()
+}
+
+class Console {
+  +readInteger()
+}
+
+class Iterable {
+  +iterator()
+}
+
+class Iterator {
+  +hasNext()
+  +next()
+}
+
+class EnrollmentRepository {
+  +alterState()
+}
+
+class ArrayList {
+  // Implementation details
+}
+
+class List {
+  +add()
+}
+
+class CourseManagementController {
+  +appendStudent()
+}
+
+class CourseManagementService {
+  +appendStudent()
+}
+
+class CourseRepository {
+  +appendStudent()
+}
+
+class Throwable {
+  +getMessage()
+}
+
+Actor --> EvaluateEnrollmentsUI
+EvaluateEnrollmentsUI --> EnrollmentConsulterService
+EvaluateEnrollmentsUI --> PrintStream
+EvaluateEnrollmentsUI --> Enrollment
+EvaluateEnrollmentsUI --> Enum
+EvaluateEnrollmentsUI --> Student
+EvaluateEnrollmentsUI --> Course
+EvaluateEnrollmentsUI --> Console
+EvaluateEnrollmentsUI --> Iterable
+EvaluateEnrollmentsUI --> Iterator
+EvaluateEnrollmentsUI --> ArrayList
+EvaluateEnrollmentsUI --> List
+EvaluateEnrollmentsUI --> CourseManagementController
+EvaluateEnrollmentsUI --> DomainRepository
+EvaluateEnrollmentsUI --> Throwable
+EnrollmentConsulterService --> DomainRepository
+EnrollmentConsulterService --> EvaluateEnrollmentsUI
+DomainRepository --> EvaluateEnrollmentsUI
+PrintStream --> EvaluateEnrollmentsUI
+Enrollment --> EvaluateEnrollmentsUI
+Enum --> EvaluateEnrollmentsUI
+Student --> EvaluateEnrollmentsUI
+Course --> EvaluateEnrollmentsUI
+Console --> EvaluateEnrollmentsUI
+Iterable --> EvaluateEnrollmentsUI
+Iterator --> EvaluateEnrollmentsUI
+EnrollmentConsulterService --> EnrollmentRepository
+EnrollmentRepository --> EnrollmentConsulterService
+EvaluateEnrollmentsUI --> ArrayList
+EvaluateEnrollmentsUI --> Throwable
+List --> EvaluateEnrollmentsUI
+CourseManagementController --> CourseManagementService
+CourseManagementService --> CourseRepository
+CourseRepository --> CourseManagementService
+@enduml

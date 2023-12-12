@@ -1,0 +1,61 @@
+@startuml
+class ModifyPostItUI {
+  - boards: List<String>
+  + ModifyPostIt(boardList: String): String
+  - showBoards(boards, boardList): boolean
+  - buildBoardsMenu(boards, boardList): Menu
+}
+
+class ModifyPostItController {
+  - svc: ModifyPostItService
+  + ModifyPostIt(email, data, row, column, boardId): boolean
+  + findBoardPresent(email): String
+  + findPostIts(boardId): String
+}
+
+class ModifyPostItService {
+  - repoB: BoardRepository
+  - repoP: PostItRepository
+  - repoU: UserRepository
+  + ModifyPostIt(email, data, rowS, columnS, boardId): boolean
+  + findBoardPresent(email): List<SharedBoard>
+  + findPostIts(boardId): List<PostIts>
+}
+
+class JpaPostItRepository {
+  + findPostItByBoardId(idboard: Long): List<PostIts>
+  + alterstate(post: PostIts): void
+  + getactivepost(numColums: int, numRows: int): PostIts
+}
+
+class JpaBoardRepository {
+  + appendUser(user: SystemUser, state: State, board: SharedBoard): void
+  + createBoard(rows: int, columns: int, owner: SystemUser, state: State): boolean
+  + findBoardOwned(email: String): List<SharedBoard>
+  + findBoardPresentWrite(email: String): List<SharedBoard>
+  + findBoardById(id: Long): SharedBoard
+  + archiveBoard(boardId: Long): void
+}
+
+class TCPClient {
+  + connect(serverAddress: String, port: int): void
+  + sendRequest(request: String): void
+  + receiveResponse(): String
+  + closeConnection(): void
+}
+
+class TCPServer {
+  + startListening(port: int): void
+  + acceptConnection(): void
+  + receiveRequest(): String
+  + sendResponse(response: String): void
+  + closeConnection(): void
+}
+
+ModifyPostItUI --> ModifyPostItController
+ModifyPostItController --> ModifyPostItService
+ModifyPostItService --> JpaPostItRepository
+ModifyPostItService --> JpaBoardRepository
+TCPClient --> TCPServer
+
+@enduml

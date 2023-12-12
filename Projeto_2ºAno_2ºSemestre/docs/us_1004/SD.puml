@@ -1,0 +1,111 @@
+@startuml
+autonumber
+'hide footbox
+actor "Manager" as manager
+
+participant ":DeactivateActivateCourseUI" as ui
+participant ":OpenCloseCourseController" as ctrl
+participant ":OpenCloseCourseService" as srvc
+participant ":Course" as course
+database ":CourseRepository" as cs
+activate manager
+
+
+manager -> ui: show()
+activate ui
+ui -> ui: doShow()
+
+
+
+
+
+alt deactivate course
+ui -> ctrl : openCloseCourse()
+activate ctrl
+
+ctrl -> srvc: create()
+activate srvc
+
+ctrl -> srvc: openCloseCourse()
+
+srvc -> cs: create()
+activate cs
+
+srvc -> cs: findByActive()
+cs --> srvc:
+deactivate cs
+srvc --> ctrl:
+deactivate srvc
+ctrl --> ui:
+deactivate ctrl
+end
+alt activate course
+ui -> ctrl: openCloseCourse()
+activate ctrl
+
+ctrl -> srvc: openCloseCourse()
+activate srvc
+srvc -> cs: create()
+activate cs
+srvc -> cs : findByInactive()
+
+cs --> srvc:
+deactivate cs
+srvc --> ctrl:
+deactivate srvc
+ctrl --> ui
+deactivate ctrl
+deactivate ui
+end
+
+alt deactivate course
+ui --> manager: ask the user the course number
+activate ui
+manager --> ui: insert the course number
+ui -> ctrl: openCloseCourse(course)
+activate ctrl
+ctrl -> srvc: openCloseCourse(course)
+activate srvc
+srvc -> course: deactivate
+activate course
+course --> srvc:
+deactivate course
+srvc -> cs: save(course)
+
+activate cs
+cs --> srvc:
+
+deactivate cs
+srvc --> ctrl:
+deactivate srvc
+
+ctrl --> ui:
+deactivate ctrl
+deactivate ui
+end
+alt activate course
+
+ui --> manager: ask the user the course number
+activate ui
+manager --> ui: input the course number
+
+ui -> ctrl: openCloseCourse(course)
+activate ctrl
+ctrl -> srvc: openCloseCourse(course)
+activate srvc
+srvc -> course: activate
+activate course
+course --> srvc:
+deactivate course
+srvc -> cs: save(course)
+activate cs
+cs --> srvc:
+deactivate cs
+srvc --> ctrl:
+deactivate srvc
+ctrl --> ui:
+deactivate ctrl
+end
+ui --> manager: success message
+deactivate ui
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+
+:Student: as Student
+
+Student -> (List own grades)
+
+
+@enduml

@@ -1,0 +1,74 @@
+@startuml
+participant Actor
+Actor -> ManageCourseUI : doShow
+activate ManageCourseUI
+ManageCourseUI -> CourseManagementService : findByCode
+activate CourseManagementService
+CourseManagementService -> CourseRepository : findByCode
+activate CourseRepository
+CourseRepository --> CourseManagementService
+deactivate CourseRepository
+CourseManagementService --> ManageCourseUI
+deactivate CourseManagementService
+ManageCourseUI -> ManageCourseUI : chooseOption
+activate ManageCourseUI
+ManageCourseUI -> ManageCourseUI : showOptionsMenu
+activate ManageCourseUI
+ManageCourseUI --> ManageCourseUI
+deactivate ManageCourseUI
+ManageCourseUI -> ManageCourseUI : setHeadTeacher
+activate ManageCourseUI
+ManageCourseUI -> SetTeacherManagementService : findByAcronym
+activate SetTeacherManagementService
+SetTeacherManagementService -> TeacherRepository : findByAcronym
+activate TeacherRepository
+TeacherRepository --> SetTeacherManagementService
+deactivate TeacherRepository
+SetTeacherManagementService --> ManageCourseUI
+deactivate SetTeacherManagementService
+ManageCourseUI -> CourseManagementService : setHeadTeacher
+activate CourseManagementService
+CourseManagementService -> CourseRepository : setHeadTeacher
+activate CourseRepository
+CourseRepository --> CourseManagementService
+deactivate CourseRepository
+CourseManagementService --> ManageCourseUI
+deactivate CourseManagementService
+ManageCourseUI --> ManageCourseUI
+deactivate ManageCourseUI
+ManageCourseUI -> ManageCourseUI : removeTeacher
+activate ManageCourseUI
+ManageCourseUI -> SetTeacherManagementService : findByAcronym
+activate SetTeacherManagementService
+SetTeacherManagementService -> TeacherRepository : findByAcronym
+activate TeacherRepository
+TeacherRepository --> SetTeacherManagementService
+deactivate TeacherRepository
+SetTeacherManagementService --> ManageCourseUI
+deactivate SetTeacherManagementService
+ManageCourseUI -> CourseManagementService : removeTeacher
+activate CourseManagementService
+CourseManagementService -> CourseRepository : removeTeacher
+activate CourseRepository
+CourseRepository --> CourseManagementService
+deactivate CourseRepository
+CourseManagementService --> ManageCourseUI
+deactivate CourseManagementService
+ManageCourseUI --> ManageCourseUI
+deactivate ManageCourseUI
+ManageCourseUI -> ManageCourseUI : openCloseEnrollment
+activate ManageCourseUI
+ManageCourseUI -> CourseManagementService : openEnrollment
+activate CourseManagementService
+CourseManagementService --> ManageCourseUI
+deactivate CourseManagementService
+ManageCourseUI -> CourseManagementService : closeEnrollment
+activate CourseManagementService
+CourseManagementService --> ManageCourseUI
+deactivate CourseManagementService
+ManageCourseUI --> ManageCourseUI
+deactivate ManageCourseUI
+ManageCourseUI --> ManageCourseUI
+deactivate ManageCourseUI
+return
+@enduml

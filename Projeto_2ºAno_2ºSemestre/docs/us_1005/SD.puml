@@ -1,0 +1,52 @@
+@startuml
+actor Manager
+database "CourseRepository" as CDB
+database "TeacherRepository" as TDB
+Manager -> SetTeachersUI : doShow
+activate SetTeachersUI
+SetTeachersUI -> SetTeacherController : listTeachers
+activate SetTeacherController
+SetTeacherController -> TDB : findAllTeachers
+activate TDB
+TDB --> SetTeacherController
+deactivate TDB
+SetTeacherController --> SetTeachersUI
+deactivate SetTeacherController
+SetTeachersUI -> SetTeacherController : listCourses
+activate SetTeacherController
+SetTeacherController -> CDB : findAllActive
+activate CDB
+CDB --> SetTeacherController
+deactivate CDB
+SetTeacherController --> SetTeachersUI
+deactivate SetTeacherController
+SetTeachersUI -> SetTeacherController : appendTeacher
+activate SetTeacherController
+SetTeacherController -> SetTeacherManagementService : findByAcronym
+activate SetTeacherManagementService
+SetTeacherManagementService -> TDB : findByAcronym
+activate TDB
+TDB --> SetTeacherManagementService
+deactivate TDB
+SetTeacherManagementService --> SetTeacherController
+deactivate SetTeacherManagementService
+SetTeacherController -> CourseManagementService : findByCode
+activate CourseManagementService
+CourseManagementService -> CDB : findByCode
+activate CDB
+CDB --> CourseManagementService
+deactivate CDB
+CourseManagementService --> SetTeacherController
+deactivate CourseManagementService
+SetTeacherController -> CourseManagementService : appendTeacher
+activate CourseManagementService
+CourseManagementService -> CDB : appendTeacher
+activate CDB
+CDB --> CourseManagementService
+deactivate CDB
+CourseManagementService --> SetTeacherController
+deactivate CourseManagementService
+SetTeacherController --> SetTeachersUI
+deactivate SetTeacherController
+return
+@enduml

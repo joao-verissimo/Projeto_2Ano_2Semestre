@@ -1,0 +1,115 @@
+@startuml
+autonumber
+actor "User" as U
+participant "CreateMeetingUI" as UI
+participant "CreateMeetingController" as CTL
+participant "AuthorizationService" as AS
+participant "CreateMeetingService" as SV
+participant "Persistence Context" as PC
+participant "RepositoryFactory" as RF
+participant "JpaMeetingRepository" as JPAM
+participant "JpaMeetingAccessListRepository" as JPAAL
+participant "Meeting" as M
+participant "MeetingAccessList" as MAL
+database "MeetingRepository" as MRPS
+database "MeetingALRepository" as MALRPS
+
+activate U
+U -> UI : want to create a meeting
+activate UI
+UI -> CTL : CreateMeetingController()
+activate CTL
+CTL -> AS : userService()
+activate AS
+CTL -> SV : CreateMeetingService()
+deactivate AS
+activate SV
+
+SV -> PC :repositories()
+activate PC
+PC -> RF :getRepositoryFactory()
+activate RF
+RF -> MRPS : meetingRepository()
+activate MRPS
+RF -> MALRPS : meetingAlRepository()
+activate MALRPS
+deactivate MRPS
+PC --> SV :factory
+deactivate PC
+deactivate RF
+deactivate MALRPS
+deactivate SV
+UI --> U : asks for date, hour, duration and list of users
+deactivate UI
+deactivate CTL
+U -> UI : introduces data
+
+activate UI
+UI -> CTL : createMeeting(date, duration, hour, emails)
+activate CTL
+
+CTL -> AS : allUsers()
+activate AS
+CTL -> CTL : new ArrayList<>();
+deactivate AS
+loop SystemUser
+loop String
+opt if email = string
+CTL -> CTL : list.add(su);
+end opt
+end
+end
+CTL -> SV : createMeeting(date, duration, hour, userAccess)
+activate SV
+SV -> M : new Meeting(duration, date, hour)
+activate M
+SV -> JPAM : save(meeting)
+deactivate M
+activate JPAM
+JPAM -> MRPS : repo.save(meeting)
+deactivate JPAM
+activate MRPS
+SV -> JPAAL : verifyAndNotify(userList, meeting)
+deactivate MRPS
+activate JPAAL
+
+loop SystemUser list
+JPAAL -> MALRPS : createQuery()
+activate MALRPS
+alt if list is not empty
+loop Meeting list
+JPAAL -> JPAAL : getMeetingTime().getHour()
+JPAAL -> JPAAL : getMeetingTime().getHour()
+JPAAL -> JPAAL : plusHours(meeting.getMeetingTime().getDuration().getHour()).plusMinutes(meeting.getMeetingTime().getDuration().getMinute())
+JPAAL -> JPAAL : plusHours(l.getMeetingTime().getDuration().getHour()).plusMinutes(l.getMeetingTime().getDuration().getMinute());
+alt if user is unavailable
+JPAAL -> JPAAL : new MeetingAccessList(user, new InviteState("Ocupado")
+JPAAL -> MALRPS : repo.save(list)
+else user is unavailable
+JPAAL -> JPAAL : new MeetingAccessList(user, new InviteState("Enviado"), meeting)
+JPAAL -> MALRPS : repo.save(list)
+end alt
+end
+else
+JPAAL -> JPAAL : new MeetingAccessList(user, new InviteState("Enviado"), meeting)
+JPAAL -> MALRPS : repo.save(list)
+end alt
+end
+deactivate MALRPS
+deactivate MRPS
+JPAAL --> SV : returns boolean
+deactivate JPAAL
+SV --> CTL : returns boolean
+deactivate MRPS
+deactivate SV
+CTL --> UI : returns boolean
+deactivate CTL
+alt boolean is true
+    UI --> U : Informs if the meeting was scheduled.
+else
+    UI --> U : Informs that an error has occurred and the meeting was not scheduled.
+end alt
+deactivate UI
+deactivate U
+
+@enduml

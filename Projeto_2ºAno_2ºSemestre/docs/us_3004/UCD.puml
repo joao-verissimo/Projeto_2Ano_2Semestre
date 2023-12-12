@@ -1,0 +1,8 @@
+@startuml
+
+:User: as user
+
+user -> (Share a board)
+
+
+@enduml

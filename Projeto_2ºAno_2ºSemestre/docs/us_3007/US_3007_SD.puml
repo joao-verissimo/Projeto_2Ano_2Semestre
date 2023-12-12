@@ -1,0 +1,39 @@
+@startuml
+skinparam participant {
+    backgroundColor AliceBlue
+}
+
+actor User
+participant ModifyPostItUI
+participant ModifyPostItController
+participant ModifyPostItService
+participant JpaPostItRepository
+participant JpaBoardRepository
+participant TCPClient
+participant TCPServer
+
+User -> ModifyPostItUI: Modify Post-It
+ModifyPostItUI -> ModifyPostItUI: showBoards(boards, boardList)
+ModifyPostItUI -> ModifyPostItUI: Select board
+ModifyPostItUI -> ModifyPostItUI: Enter Post-It data, row, column
+ModifyPostItUI -> ModifyPostItController: ModifyPostIt(email, data, row, column, boardId)
+ModifyPostItController -> ModifyPostItService: ModifyPostIt(email, data, row, column, boardId)
+ModifyPostItService -> JpaPostItRepository: getactivepost(column, row)
+JpaPostItRepository --> ModifyPostItService: Return active Post-It
+ModifyPostItService -> JpaPostItRepository: alterstate(previousPost)
+JpaPostItRepository -> JpaPostItRepository: Update postitstate
+ModifyPostItService -> JpaPostItRepository: save(post)
+JpaPostItRepository -> JpaPostItRepository: Save modified Post-It
+ModifyPostItService -> JpaBoardRepository: findBoardById(boardId)
+JpaBoardRepository --> ModifyPostItService: Return board
+ModifyPostItService -> TCPClient: Send ModifyPostIt request
+TCPClient -> TCPServer: Send request
+TCPServer --> TCPClient: Receive request
+TCPServer -> ModifyPostItService: Process ModifyPostIt request
+ModifyPostItService -> TCPServer: Send response
+TCPClient --> ModifyPostItService: Receive response
+ModifyPostItService --> ModifyPostItController: Return true
+ModifyPostItController --> ModifyPostItUI: Return true
+ModifyPostItUI -> User: Display success message
+
+@enduml

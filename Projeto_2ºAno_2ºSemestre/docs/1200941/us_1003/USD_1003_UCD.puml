@@ -1,0 +1,25 @@
+@startuml
+actor Manager
+left to right direction
+rectangle {
+  usecase "Manage Course" as UC1
+  usecase "Open Enrollment" as UC2
+  usecase "Close Enrollment" as UC3
+  usecase "Set Head Teacher" as UC4
+  usecase "Remove Teacher" as UC5
+  usecase "Remove Student" as UC6
+  usecase "Append Student" as UC7
+  usecase "Deactivate Course" as UC9
+  usecase "Activate Course" as UC10
+}
+
+Manager --> UC1
+Manager --> UC2
+Manager --> UC3
+Manager --> UC4
+Manager --> UC5
+Manager --> UC6
+Manager --> UC7
+Manager --> UC9
+Manager --> UC10
+@enduml

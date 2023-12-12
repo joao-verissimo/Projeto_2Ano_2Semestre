@@ -1,0 +1,8 @@
+@startuml
+
+:Teacher: as Teacher
+
+Teacher   -> (View a list of the grades of exams of my courses)
+
+
+@enduml

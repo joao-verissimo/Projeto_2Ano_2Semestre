@@ -1,0 +1,14 @@
+@startuml
+autonumber
+actor "Teacher" as T
+participant ":System" as SYS
+
+
+activate T
+T ->SYS : want to view a list of all exams in a course
+activate SYS
+SYS --> T : show the exam titles and dates
+deactivate SYS
+deactivate T
+
+@enduml

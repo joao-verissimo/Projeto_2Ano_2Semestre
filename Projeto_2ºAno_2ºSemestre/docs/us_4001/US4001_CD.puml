@@ -1,0 +1,57 @@
+@startuml
+class User {
+}
+
+class MeetingRepository {
+}
+
+class MeetingALRepository {
+    +verifyAndNotify(List<SystemUser> users, Meeting meeting) : boolean
+}
+
+class CreateMeetingUI {
+    +doShow() : boolean
+    +headline() : String
+}
+
+class CreateMeetingController {
+    -CreateMeetingService service
+    -UserManagementService userSvc
+    +createMeeting(LocalDate date, LocalTime duration, LocalTime hour, List<String> userList) : boolean
+}
+
+class CreateMeetingService {
+    -MeetingRepository mr
+    -MeetingALRepository macr
+    +createMeeting(LocalDate date, LocalTime duration, LocalTime hour, List<SystemUser> userList) : boolean
+}
+
+class MeetingAccessList {
+    - Long idAccessList
+    - SystemUser user
+    - InviteState inviteState
+    - Meeting meeting
+    + sameAs(Object other) : boolean
+    + identity() : Code
+}
+
+class MeetingTime {
+    - LocalTime duration
+    - LocalTime hour
+    - LocalDate date
+    + getDuration() : LocalTime
+    + setDuration(LocalTime duration) : void
+    + getHour() : LocalTime
+    + setHour(LocalTime hour) : void
+    + getDate() : LocalDate
+    + setDate(LocalDate date) : void
+}
+
+User --> CreateMeetingUI
+CreateMeetingUI --> CreateMeetingController
+CreateMeetingController --> CreateMeetingService
+CreateMeetingService --> MeetingRepository
+MeetingRepository --> MeetingTime
+CreateMeetingService --> MeetingALRepository
+MeetingALRepository --> MeetingAccessList
+@enduml

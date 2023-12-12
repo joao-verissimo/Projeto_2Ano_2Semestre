@@ -1,0 +1,8 @@
+@startuml
+
+:Teacher: as Teacher
+
+Teacher -> (Create/update automatic formative exams)
+
+
+@enduml

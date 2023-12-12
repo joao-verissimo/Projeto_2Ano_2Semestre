@@ -1,0 +1,91 @@
+@startuml
+class Teacher {
+  +email: String
+  +name: String
+  +getGrades(): void
+}
+
+class ListExamsGradesUI {
+  +doShow(): void
+}
+
+class ShowTeachingCoursesController {
+  +showTeachingCourses(): void
+}
+
+class AuthorizationService {
+  +ensureAuthenticatedUserHasAnyOf(): void
+}
+
+class UserSession {
+  +authenticatedUser: User
+}
+
+class SystemUserAuth {
+  +hasAny(email: String): boolean
+}
+
+class TeacherRepository {
+  +findTeacherByEmail(email: String): Teacher
+}
+
+class CourseManagementService {
+  +findTeachingCourses(): Course[]
+}
+
+class CourseRepository {
+  +findTeachingCourses(): Course[]
+}
+
+class ExamManagementController {
+  +findByCode(): Exam
+}
+
+class ExamManagementService {
+  +findByCode(): Exam
+}
+
+class ExamRepository {
+  +findByCode(): Exam
+}
+
+class ListExamsGradesPerCourseController {
+  +GradesPerCourse(): void
+}
+
+class EvaluationRepository {
+  +findAllStudentsOfACourse(course: Course): Grade[]
+}
+
+class Grade {
+  +student: Student
+  +value: int
+}
+
+class Course {
+  +code: String
+  +name: String
+}
+
+class Student {
+  +id: int
+  +name: String
+}
+
+Teacher --> ListExamsGradesUI
+ListExamsGradesUI --> ShowTeachingCoursesController
+ShowTeachingCoursesController --> AuthorizationService
+AuthorizationService --> UserSession
+AuthorizationService --> SystemUserAuth
+ShowTeachingCoursesController --> TeacherRepository
+ShowTeachingCoursesController --> CourseManagementService
+CourseManagementService --> CourseRepository
+ListExamsGradesUI --> ExamManagementController
+ExamManagementController --> ExamManagementService
+ExamManagementService --> ExamRepository
+ListExamsGradesUI --> ListExamsGradesPerCourseController
+ListExamsGradesPerCourseController --> EvaluationRepository
+EvaluationRepository --> ListExamsGradesUI
+ListExamsGradesUI --> Teacher
+
+@enduml

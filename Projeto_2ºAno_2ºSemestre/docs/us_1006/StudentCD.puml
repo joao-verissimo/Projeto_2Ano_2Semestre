@@ -1,0 +1,56 @@
+@startuml
+class Student {
+  -id: int
+  -name: String
+  -email: String
+  -enrollments: List<Enrollment>
+  +getId(): int
+  +getName(): String
+  +getEmail(): String
+  +getEnrollments(): List<Enrollment>
+  +addEnrollment(enrollment: Enrollment): void
+  +removeEnrollment(enrollment: Enrollment): void
+}
+
+class CourseRepository {
+  +findAll(): List<Course>
+  +findById(id: int): Course
+  +save(course: Course): void
+  +delete(course: Course): void
+}
+
+class Course {
+  -id: int
+  -name: String
+  -description: String
+  -enrollments: List<Enrollment>
+  +getId(): int
+  +getName(): String
+  +getDescription(): String
+  +getEnrollments(): List<Enrollment>
+  +addEnrollment(enrollment: Enrollment): void
+  +removeEnrollment(enrollment: Enrollment): void
+}
+
+class StudentRepository {
+  +findAll(): List<Student>
+  +findById(id: int): Student
+  +findByEmail(email: String): Student
+  +save(student: Student): void
+  +delete(student: Student): void
+}
+
+class Enrollment {
+  -id: int
+  -student: Student
+  -course: Course
+  +getId(): int
+  +getStudent(): Student
+  +getCourse(): Course
+}
+
+Student "1" -- "*" Enrollment : has
+Course "1" -- "*" Enrollment : has
+Student --> StudentRepository
+Course --> CourseRepository
+@enduml

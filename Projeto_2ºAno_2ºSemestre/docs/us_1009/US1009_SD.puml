@@ -1,0 +1,155 @@
+@startuml
+participant Actor
+Actor -> EvaluateEnrollmentsUI : doShow
+activate EvaluateEnrollmentsUI
+EvaluateEnrollmentsUI -> EnrollmentConsulterService : listEnrollments
+activate EnrollmentConsulterService
+EnrollmentConsulterService -> DomainRepository : findAll
+activate DomainRepository
+DomainRepository --> EnrollmentConsulterService
+deactivate DomainRepository
+EnrollmentConsulterService --> EvaluateEnrollmentsUI
+deactivate EnrollmentConsulterService
+EvaluateEnrollmentsUI -> PrintStream : println
+activate PrintStream
+PrintStream --> EvaluateEnrollmentsUI
+deactivate PrintStream
+EvaluateEnrollmentsUI -> PrintStream : printf
+activate PrintStream
+PrintStream --> EvaluateEnrollmentsUI
+deactivate PrintStream
+EvaluateEnrollmentsUI -> Enrollment : getState
+activate Enrollment
+Enrollment --> EvaluateEnrollmentsUI
+deactivate Enrollment
+EvaluateEnrollmentsUI -> Enum : equals
+activate Enum
+Enum --> EvaluateEnrollmentsUI
+deactivate Enum
+EvaluateEnrollmentsUI -> Enrollment : getId
+activate Enrollment
+Enrollment --> EvaluateEnrollmentsUI
+deactivate Enrollment
+EvaluateEnrollmentsUI -> Enrollment : getStudent
+activate Enrollment
+Enrollment --> EvaluateEnrollmentsUI
+deactivate Enrollment
+EvaluateEnrollmentsUI -> Student : getMecanographicNumber
+activate Student
+Student --> EvaluateEnrollmentsUI
+deactivate Student
+EvaluateEnrollmentsUI -> Enrollment : getCourse
+activate Enrollment
+Enrollment --> EvaluateEnrollmentsUI
+deactivate Enrollment
+EvaluateEnrollmentsUI -> Course : getCode
+activate Course
+Course --> EvaluateEnrollmentsUI
+deactivate Course
+EvaluateEnrollmentsUI -> Enrollment : getState
+activate Enrollment
+Enrollment --> EvaluateEnrollmentsUI
+deactivate Enrollment
+EvaluateEnrollmentsUI -> PrintStream : printf
+activate PrintStream
+PrintStream --> EvaluateEnrollmentsUI
+deactivate PrintStream
+EvaluateEnrollmentsUI -> Console : readInteger
+activate Console
+Console --> EvaluateEnrollmentsUI
+deactivate Console
+EvaluateEnrollmentsUI -> Iterable : iterator
+activate Iterable
+Iterable --> EvaluateEnrollmentsUI
+deactivate Iterable
+EvaluateEnrollmentsUI -> Iterator : hasNext
+activate Iterator
+Iterator --> EvaluateEnrollmentsUI
+deactivate Iterator
+EvaluateEnrollmentsUI -> Iterator : next
+activate Iterator
+Iterator --> EvaluateEnrollmentsUI
+deactivate Iterator
+EvaluateEnrollmentsUI -> PrintStream : println
+activate PrintStream
+PrintStream --> EvaluateEnrollmentsUI
+deactivate PrintStream
+EvaluateEnrollmentsUI -> Enrollment : getStudent
+activate Enrollment
+Enrollment --> EvaluateEnrollmentsUI
+deactivate Enrollment
+EvaluateEnrollmentsUI -> Enrollment : getCourse
+activate Enrollment
+Enrollment --> EvaluateEnrollmentsUI
+deactivate Enrollment
+EvaluateEnrollmentsUI -> EnrollmentConsulterService : alterState
+activate EnrollmentConsulterService
+EnrollmentConsulterService -> EnrollmentRepository : alterState
+activate EnrollmentRepository
+EnrollmentRepository --> EnrollmentConsulterService
+deactivate EnrollmentRepository
+EnrollmentConsulterService --> EvaluateEnrollmentsUI
+deactivate EnrollmentConsulterService
+create ArrayList
+EvaluateEnrollmentsUI -> ArrayList : new
+activate ArrayList
+ArrayList --> EvaluateEnrollmentsUI
+deactivate ArrayList
+EvaluateEnrollmentsUI -> Enrollment : getStudent
+activate Enrollment
+Enrollment --> EvaluateEnrollmentsUI
+deactivate Enrollment
+EvaluateEnrollmentsUI -> List : add
+activate List
+List --> EvaluateEnrollmentsUI
+deactivate List
+EvaluateEnrollmentsUI -> Enrollment : getCourse
+activate Enrollment
+Enrollment --> EvaluateEnrollmentsUI
+deactivate Enrollment
+EvaluateEnrollmentsUI -> CourseManagementController : appendStudent
+activate CourseManagementController
+CourseManagementController -> CourseManagementService : appendStudent
+activate CourseManagementService
+CourseManagementService -> CourseRepository : appendStudent
+activate CourseRepository
+CourseRepository --> CourseManagementService
+deactivate CourseRepository
+CourseManagementService --> CourseManagementController
+deactivate CourseManagementService
+CourseManagementController --> EvaluateEnrollmentsUI
+deactivate CourseManagementController
+EvaluateEnrollmentsUI -> DomainRepository : save
+activate DomainRepository
+DomainRepository --> EvaluateEnrollmentsUI
+deactivate DomainRepository
+EvaluateEnrollmentsUI -> Enrollment : getStudent
+activate Enrollment
+Enrollment --> EvaluateEnrollmentsUI
+deactivate Enrollment
+EvaluateEnrollmentsUI -> Student : getMecanographicNumber
+activate Student
+Student --> EvaluateEnrollmentsUI
+deactivate Student
+EvaluateEnrollmentsUI -> Enrollment : getCourse
+activate Enrollment
+Enrollment --> EvaluateEnrollmentsUI
+deactivate Enrollment
+EvaluateEnrollmentsUI -> Course : getCode
+activate Course
+Course --> EvaluateEnrollmentsUI
+deactivate Course
+EvaluateEnrollmentsUI -> PrintStream : println
+activate PrintStream
+PrintStream --> EvaluateEnrollmentsUI
+deactivate PrintStream
+EvaluateEnrollmentsUI -> Throwable : getMessage
+activate Throwable
+Throwable --> EvaluateEnrollmentsUI
+deactivate Throwable
+EvaluateEnrollmentsUI -> PrintStream : println
+activate PrintStream
+PrintStream --> EvaluateEnrollmentsUI
+deactivate PrintStream
+return
+@enduml

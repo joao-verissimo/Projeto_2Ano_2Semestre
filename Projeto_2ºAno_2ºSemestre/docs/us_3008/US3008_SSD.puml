@@ -1,0 +1,14 @@
+@startuml
+autonumber
+actor "User" as U
+participant ":System" as SYS
+
+
+activate U
+U -> SYS : As User, I want to undo the last change in a post-it
+activate SYS
+SYS --> U : Informs if the post-it was undone or an error has occurred
+deactivate SYS
+deactivate U
+
+@enduml

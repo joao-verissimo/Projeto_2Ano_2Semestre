@@ -1,0 +1,46 @@
+@startuml
+class ScheduleExtraClassUI{
+ + doShow()
+
+}
+class ScheduleExtraClassController {
+    +scheduleExtraClass(acronym: String, title: String, initialTime: String, finishTime: String, newDate: String, extra_class_access_list: List<Student>): void
+}
+class StudentManagmentService{
+    +searchByEmail()
+}
+
+class ScheduleExtraClassService {
+    -classRepository: ClassRepository
+    -extraClassRepository: ExtraClassRepository
+    -teacherRepository: TeacherRepository
+    +schedule(acronym: String, title: String, initialTime: String, finishTime: String, newDate: String, extra_class_access_list: List<Student>): void
+    +scheduleClass(acronym: String, title: String, initialTime: String, finishTime: String, newDate: String, extra_class_access_list: List<Student>): ExtraClass
+    +isBetween(time: LocalTime, initialTime: LocalTime, finalTime: LocalTime): boolean
+    +verifyIfTeacher(acronym: String): boolean
+}
+
+class ClassRepository {
+    +findAllClassesByAcronym(acronym: String): Iterable<Class>
+    +findAll(): Iterable<Class>
+}
+
+class ExtraClassRepository {
+    +findAllClassesByAcronym(acronym: String): Iterable<ExtraClass>
+    +findAll(): Iterable<ExtraClass>
+}
+
+class TeacherRepository {
+    +findAllTeachers(): Iterable<Teacher>
+    +findByAcronym(acronym: String): Teacher
+    +findTeacherByEmail(email: String): Teacher
+}
+ScheduleExtraClassUI -> ScheduleExtraClassController
+ScheduleExtraClassController --> ScheduleExtraClassService
+ScheduleExtraClassService --> StudentManagmentService
+
+ScheduleExtraClassService --> ClassRepository
+ScheduleExtraClassService --> ExtraClassRepository
+ScheduleExtraClassService --> TeacherRepository
+
+@enduml

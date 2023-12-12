@@ -1,0 +1,71 @@
+@startuml
+autonumber
+actor "User" as U
+participant "CreateBoardUI" as UI
+participant "CreateBoardController" as CTL
+participant "AuthorizationService" as AS
+participant "CreateBoardService" as SV
+participant "Persistence Context" as PC
+participant "RepositoryFactory" as RF
+participant "JpaBoardRepository" as JPA
+participant "SharedBoard" as SBC
+database "BoardRepository" as RPS
+
+activate U
+U -> UI : want to create a board
+activate UI
+UI -> CTL : CreateBoardController()
+activate CTL
+CTL -> AS : authorizationService()
+activate AS
+CTL -> SV : CreateBoardService()
+deactivate AS
+activate SV
+
+SV -> PC :repositories()
+activate PC
+PC -> RF :getRepositoryFactory()
+activate RF
+RF -> RPS : boardRepository()
+activate RPS
+PC --> SV :factory
+deactivate PC
+deactivate RF
+deactivate RPS
+deactivate SV
+UI --> U : asks for number of rows and columns
+deactivate UI
+deactivate CTL
+U -> UI : introduces number of rows and columns
+
+activate UI
+UI -> CTL : createBoard(rows, columns)
+activate CTL
+
+CTL -> AS : session().get().authenticatedUser()
+activate AS
+CTL -> SV : createBoard(rows, columns, owner)
+deactivate AS
+activate SV
+SV -> JPA : boolean = createBoard(rows,columns,owner)
+activate JPA
+JPA -> SBC : sb = new SharedBoard(rows, columns, owner)
+activate SBC
+JPA -> RPS : repo.save(sb)
+deactivate SBC
+activate RPS
+deactivate JPA
+SV --> CTL : returns boolean
+deactivate RPS
+deactivate SV
+CTL --> UI : returns boolean
+deactivate CTL
+alt boolean is true
+    UI --> U : Informs the board was created with success.
+else
+    UI --> U : Informs the board was not created with success.
+end alt
+deactivate UI
+deactivate U
+
+@enduml

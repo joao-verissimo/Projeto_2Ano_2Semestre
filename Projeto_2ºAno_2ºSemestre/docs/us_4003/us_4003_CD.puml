@@ -1,0 +1,139 @@
+@startuml
+
+class Actor
+
+class EvaluateMeetingsUI {
+  +doShow()
+}
+
+class MeetingEvaluationController {
+  +new()
+  +listMeetingAL()
+  +getUser()
+  +alterStateA()
+  +alterStateD()
+}
+
+class AuthzRegistry {
+  +authorizationService()
+  +nonNull()
+}
+
+class Invariants
+
+class DomainRepository {
+  +findAll()
+  +save()
+}
+
+class AuthorizationService {
+  +ofNullable()
+}
+
+class Optional {
+  +get()
+}
+
+class UserSession {
+  +authenticatedUser()
+}
+
+class PrintStream {
+  +println()
+  +printf()
+}
+
+class MeetingAccessList {
+  +getInviteState()
+  +getUser()
+  +getIdAccessList()
+  +getMeeting()
+}
+
+class Enum {
+  +equals()
+}
+
+class Meeting {
+  +getDate()
+  +getHour()
+  +getDuration()
+}
+
+class Console {
+  +readInteger()
+  +readLine()
+}
+
+class Iterable {
+  +iterator()
+}
+
+class Iterator {
+  +hasNext()
+  +next()
+}
+
+class SystemUser {
+  +equals()
+  +name()
+}
+
+class Throwable {
+  +getMessage()
+}
+
+Actor --> EvaluateMeetingsUI
+EvaluateMeetingsUI --> MeetingEvaluationController
+EvaluateMeetingsUI --> PrintStream
+EvaluateMeetingsUI --> MeetingAccessList
+EvaluateMeetingsUI --> Enum
+EvaluateMeetingsUI --> Meeting
+EvaluateMeetingsUI --> Console
+EvaluateMeetingsUI --> Iterable
+EvaluateMeetingsUI --> Iterator
+EvaluateMeetingsUI --> String
+EvaluateMeetingsUI --> DomainRepository
+EvaluateMeetingsUI --> SystemUser
+EvaluateMeetingsUI --> Throwable
+
+MeetingEvaluationController --> AuthzRegistry
+MeetingEvaluationController --> DomainRepository
+MeetingEvaluationController --> AuthorizationService
+MeetingEvaluationController --> Optional
+MeetingEvaluationController --> UserSession
+MeetingEvaluationController --> MeetingALRepository
+
+AuthzRegistry --> Invariants
+AuthzRegistry --> MeetingEvaluationController
+
+DomainRepository --> MeetingEvaluationController
+
+AuthorizationService --> Optional
+AuthorizationService --> MeetingEvaluationController
+
+Optional --> AuthorizationService
+Optional --> MeetingEvaluationController
+
+UserSession --> MeetingEvaluationController
+
+PrintStream --> EvaluateMeetingsUI
+
+MeetingAccessList --> EvaluateMeetingsUI
+MeetingAccessList --> Enum
+MeetingAccessList --> SystemUser
+MeetingAccessList --> Meeting
+
+Meeting --> EvaluateMeetingsUI
+
+Console --> EvaluateMeetingsUI
+
+Iterable --> EvaluateMeetingsUI
+
+Iterator --> EvaluateMeetingsUI
+
+String --> EvaluateMeetingsUI
+
+Throwable --> EvaluateMeetingsUI
+
+@enduml

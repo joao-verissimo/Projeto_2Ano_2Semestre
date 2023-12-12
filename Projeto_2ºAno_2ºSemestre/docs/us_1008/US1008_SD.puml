@@ -1,0 +1,207 @@
+@startuml
+participant Actor
+Actor -> RequestEnrollmentUI : doShow
+activate RequestEnrollmentUI
+create EnrollmentBuilder
+RequestEnrollmentUI -> EnrollmentBuilder : new
+activate EnrollmentBuilder
+EnrollmentBuilder -> AuthzRegistry : authorizationService
+activate AuthzRegistry
+AuthzRegistry -> Invariants : nonNull
+activate Invariants
+Invariants --> AuthzRegistry
+deactivate Invariants
+AuthzRegistry --> EnrollmentBuilder
+deactivate AuthzRegistry
+EnrollmentBuilder -> AuthorizationService : ensureAuthenticatedUserHasAnyOf
+activate AuthorizationService
+AuthorizationService -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService -> Optional : ofNullable
+activate Optional
+Optional --> AuthorizationService
+deactivate Optional
+AuthorizationService --> AuthorizationService
+deactivate AuthorizationService
+AuthorizationService -> AuthorizationService : () ->
+activate AuthorizationService
+AuthorizationService -> Logger : info
+activate Logger
+Logger --> AuthorizationService
+deactivate Logger
+create UnauthenticatedException
+AuthorizationService -> UnauthenticatedException : new
+activate UnauthenticatedException
+UnauthenticatedException --> AuthorizationService
+deactivate UnauthenticatedException
+AuthorizationService --> AuthorizationService
+deactivate AuthorizationService
+AuthorizationService -> Optional : orElseThrow
+activate Optional
+Optional --> AuthorizationService
+deactivate Optional
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+AuthorizationService -> SystemUser : hasAny
+activate SystemUser
+SystemUser -> RoleSet : hasAssignment
+activate RoleSet
+RoleSet -> RoleAssignment : isExpired
+activate RoleAssignment
+RoleAssignment --> RoleSet
+deactivate RoleAssignment
+RoleSet -> RoleAssignment : isOf
+activate RoleAssignment
+RoleAssignment --> RoleSet
+deactivate RoleAssignment
+RoleSet --> SystemUser
+deactivate RoleSet
+SystemUser --> AuthorizationService
+deactivate SystemUser
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+AuthorizationService -> SystemUser : email
+activate SystemUser
+SystemUser --> AuthorizationService
+deactivate SystemUser
+AuthorizationService -> Logger : info
+activate Logger
+Logger --> AuthorizationService
+deactivate Logger
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+create UnauthorizedException
+AuthorizationService -> UnauthorizedException : new
+activate UnauthorizedException
+UnauthorizedException -> UnauthorizedException : buildMessage
+activate UnauthorizedException
+UnauthorizedException -> SystemUser : email
+activate SystemUser
+SystemUser --> UnauthorizedException
+deactivate SystemUser
+UnauthorizedException --> UnauthorizedException
+deactivate UnauthorizedException
+create RuntimeException
+UnauthorizedException -> RuntimeException : new
+activate RuntimeException
+RuntimeException --> UnauthorizedException
+deactivate RuntimeException
+UnauthorizedException --> AuthorizationService
+deactivate UnauthorizedException
+AuthorizationService --> EnrollmentBuilder
+deactivate AuthorizationService
+EnrollmentBuilder --> RequestEnrollmentUI
+deactivate EnrollmentBuilder
+RequestEnrollmentUI -> ListCourseController : listCourses
+activate ListCourseController
+ListCourseController -> CourseRepository : findAll
+activate CourseRepository
+CourseRepository --> ListCourseController
+deactivate CourseRepository
+ListCourseController --> RequestEnrollmentUI
+deactivate ListCourseController
+RequestEnrollmentUI -> Course : toString
+activate Course
+Course -> Code : getValue
+activate Code
+Code --> Course
+deactivate Code
+Course -> Title : getValue
+activate Title
+Title --> Course
+deactivate Title
+Course -> Name : getValue
+activate Name
+Name --> Course
+deactivate Name
+Course -> Description : getValue
+activate Description
+Description --> Course
+deactivate Description
+Course -> Capacity : getValue
+activate Capacity
+Capacity --> Course
+deactivate Capacity
+Course -> Enum : toString
+activate Enum
+Enum --> Course
+deactivate Enum
+Course -> Object : toString
+activate Object
+Object --> Course
+deactivate Object
+Course --> RequestEnrollmentUI
+deactivate Course
+RequestEnrollmentUI -> PrintStream : println
+activate PrintStream
+PrintStream --> RequestEnrollmentUI
+deactivate PrintStream
+RequestEnrollmentUI -> Console : readInteger
+activate Console
+Console --> RequestEnrollmentUI
+deactivate Console
+RequestEnrollmentUI -> Iterable : iterator
+activate Iterable
+Iterable --> RequestEnrollmentUI
+deactivate Iterable
+RequestEnrollmentUI -> Iterator : hasNext
+activate Iterator
+Iterator --> RequestEnrollmentUI
+deactivate Iterator
+RequestEnrollmentUI -> Iterator : next
+activate Iterator
+Iterator --> RequestEnrollmentUI
+deactivate Iterator
+RequestEnrollmentUI -> PrintStream : println
+activate PrintStream
+PrintStream --> RequestEnrollmentUI
+deactivate PrintStream
+RequestEnrollmentUI -> EnrollmentBuilder : enrollStudent
+activate EnrollmentBuilder
+EnrollmentBuilder -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService -> Optional : ofNullable
+activate Optional
+Optional --> AuthorizationService
+deactivate Optional
+AuthorizationService --> EnrollmentBuilder
+deactivate AuthorizationService
+EnrollmentBuilder -> Optional : get
+activate Optional
+Optional --> EnrollmentBuilder
+deactivate Optional
+EnrollmentBuilder -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> EnrollmentBuilder
+deactivate UserSession
+EnrollmentBuilder -> SystemUser : email
+activate SystemUser
+SystemUser --> EnrollmentBuilder
+deactivate SystemUser
+EnrollmentBuilder -> EmailAddress : toString
+activate EmailAddress
+EmailAddress --> EnrollmentBuilder
+deactivate EmailAddress
+EnrollmentBuilder -> StudentRepository : findStudentByEmail
+activate StudentRepository
+StudentRepository --> EnrollmentBuilder
+deactivate StudentRepository
+create Enrollment
+EnrollmentBuilder -> Enrollment : new
+activate Enrollment
+Enrollment --> EnrollmentBuilder
+deactivate Enrollment
+EnrollmentBuilder -> DomainRepository : save
+activate DomainRepository
+DomainRepository --> EnrollmentBuilder
+deactivate DomainRepository
+EnrollmentBuilder --> RequestEnrollmentUI
+deactivate EnrollmentBuilder
+return
+@enduml

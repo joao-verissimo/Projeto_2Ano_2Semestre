@@ -1,0 +1,17 @@
+@startuml
+Teacher -> ListExamsGradesUI : doShow
+ListExamsGradesUI -> ShowTeachingCoursesController : showTeachingCourses
+ShowTeachingCoursesController -> AuthorizationService : ensureAuthenticatedUserHasAnyOf
+AuthorizationService -> UserSession : authenticatedUser
+AuthorizationService -> SystemUserAuth : hasAny(email)
+ShowTeachingCoursesController -> TeacherRepository : findTeacherByEmail
+ShowTeachingCoursesController -> CourseManagementService : findTeachingCourses
+CourseManagementService -> CourseRepository : findTeachingCourses
+ListExamsGradesUI -> ExamManagementController : findByCode
+ExamManagementController -> ExamManagementService : findByCode
+ExamManagementService -> ExamRepository : findByCode
+ListExamsGradesUI -> ListExamsGradesPerCourseController : GradesPerCourse
+ListExamsGradesPerCourseController -> EvaluationRepository : findAllStudentsOfACourse
+EvaluationRepository -> ListExamsGradesUI : Return Grades of Teacher´s Courses
+ListExamsGradesUI -> Teacher: See Results
+@enduml

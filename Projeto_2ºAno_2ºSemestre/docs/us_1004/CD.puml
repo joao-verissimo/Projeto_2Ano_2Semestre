@@ -1,0 +1,36 @@
+@startuml
+class DeactivateActivateCourseUI <<presentation>>{
++doShow()
+}
+
+class DeactivateActivateCourseController <<application>> {
++activeCourses()
++inactiveCourses()
++activateCourse(course)
++deactivateCourse(course)
+}
+
+class CourseManagementService <<application>> {
++activeCourses()
++inactiveCourses()
++activateCourse(course)
++deactivateCourse(course)
+}
+
+class Course <<domain>> {
++activate()
++deactivate()
+}
+
+class UserRepository <<repository>> {
++findActiveCourses()
++findInactiveCourses()
+}
+
+DeactivateActivateCourseUI --> DeactivateActivateCourseController
+DeactivateActivateCourseController --> CourseManagementService
+CourseManagementService --> Course
+CourseManagementService --> UserRepository
+
+
+@enduml

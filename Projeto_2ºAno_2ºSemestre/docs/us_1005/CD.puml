@@ -1,0 +1,52 @@
+@startuml
+class Manager {
+}
+
+class CourseRepository {
+    +findAllActive(): List<Course>
+    +findByCode(code: String): Course
+    +appendTeacher(course: Course, teacher: Teacher): void
+}
+
+class TeacherRepository {
+    +findAllTeachers(): List<Teacher>
+    +findByAcronym(acronym: String): Teacher
+}
+
+class SetTeachersUI {
+    +doShow(): void
+    +listTeachers(): List<Teacher>
+    +listCourses(): List<Course>
+    +appendTeacher(teacher: Teacher, course: Course): void
+}
+
+class SetTeacherController {
+    -teacherRepository: TeacherRepository
+    -courseRepository: CourseRepository
+    +listTeachers(): List<Teacher>
+    +listCourses(): List<Course>
+    +appendTeacher(teacher: Teacher, course: Course): void
+}
+
+class SetTeacherManagementService {
+    -teacherRepository: TeacherRepository
+    +findByAcronym(acronym: String): Teacher
+}
+
+class CourseManagementService {
+    -courseRepository: CourseRepository
+    +findByCode(code: String): Course
+    +appendTeacher(course: Course, teacher: Teacher): void
+}
+
+Manager --> SetTeachersUI : doShow
+SetTeachersUI --> SetTeacherController : listTeachers
+SetTeacherController --> TeacherRepository : findAllTeachers
+SetTeacherController --> SetTeacherController : appendTeacher
+SetTeacherController --> SetTeacherManagementService : findByAcronym
+SetTeacherManagementService --> TeacherRepository : findByAcronym
+SetTeacherController --> CourseManagementService : findByCode
+CourseManagementService --> CourseRepository : findByCode
+CourseManagementService --> CourseRepository : appendTeacher
+SetTeachersUI --> SetTeacherController : listCourses
+@enduml

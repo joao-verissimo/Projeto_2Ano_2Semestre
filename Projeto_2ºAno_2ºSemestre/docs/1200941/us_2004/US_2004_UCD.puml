@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+
+actor Actor as "Student"
+
+rectangle "Take Exam" {
+  usecase "Display Next Exams" as UC2
+  usecase "Choose Exam" as UC3
+  usecase "Answer Questions" as UC4
+  usecase "Create Evaluation" as UC5
+
+  Actor --> UC2
+  UC2 --> UC3
+  UC3 --> UC4
+  UC4 --> UC5
+}
+@enduml

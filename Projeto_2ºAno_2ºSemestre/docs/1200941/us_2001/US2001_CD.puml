@@ -1,0 +1,62 @@
+@startuml
+class Actor
+
+class ManageCourseUI {
+    + doShow()
+    + chooseOption()
+    + showOptionsMenu()
+    + setHeadTeacher()
+    + removeTeacher()
+    + openCloseEnrollment()
+}
+
+class CourseManagementService {
+    + findByCode()
+    + setHeadTeacher()
+    + removeTeacher()
+    + openEnrollment()
+    + closeEnrollment()
+}
+
+class CourseRepository {
+    + findByCode()
+    + setHeadTeacher()
+    + removeTeacher()
+}
+
+class SetTeacherManagementService {
+    + findByAcronym()
+}
+
+class TeacherRepository {
+    + findByAcronym()
+}
+
+Actor --> ManageCourseUI : doShow
+ManageCourseUI --> CourseManagementService : findByCode
+CourseManagementService --> CourseRepository : findByCode
+CourseRepository --> CourseManagementService
+ManageCourseUI --> ManageCourseUI : chooseOption
+ManageCourseUI --> ManageCourseUI : showOptionsMenu
+ManageCourseUI --> ManageCourseUI : setHeadTeacher
+ManageCourseUI --> SetTeacherManagementService : findByAcronym
+SetTeacherManagementService --> TeacherRepository : findByAcronym
+TeacherRepository --> SetTeacherManagementService
+SetTeacherManagementService --> ManageCourseUI
+ManageCourseUI --> CourseManagementService : setHeadTeacher
+CourseManagementService --> CourseRepository : setHeadTeacher
+CourseRepository --> CourseManagementService
+ManageCourseUI --> ManageCourseUI : removeTeacher
+ManageCourseUI --> SetTeacherManagementService : findByAcronym
+SetTeacherManagementService --> TeacherRepository : findByAcronym
+TeacherRepository --> SetTeacherManagementService
+SetTeacherManagementService --> ManageCourseUI
+ManageCourseUI --> CourseManagementService : removeTeacher
+CourseManagementService --> CourseRepository : removeTeacher
+CourseRepository --> CourseManagementService
+ManageCourseUI --> ManageCourseUI : openCloseEnrollment
+ManageCourseUI --> CourseManagementService : openEnrollment
+CourseManagementService --> ManageCourseUI
+ManageCourseUI --> CourseManagementService : closeEnrollment
+CourseManagementService --> ManageCourseUI
+@enduml

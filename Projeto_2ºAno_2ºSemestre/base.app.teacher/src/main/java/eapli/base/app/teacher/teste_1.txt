@@ -1,0 +1,54 @@
+EXAM "Exam Example":
+FEEDBACK TYPE: (none);
+GRADE TYPE: (on-submission);
+
+DESCRIPTION: "Exam Description";
+
+{
+  SECTION "THEME 1" {
+    MULTIPLE CHOICE QUESTION: "Multiple Choice Question Example" {
+     [A] - "Option A",
+     [B] - "Option B",
+     [C] - "Option C",
+     [D] - "Option D"
+    }
+    -> [A];
+
+    POINTS: (10);
+  }
+
+  SECTION "V F" {
+
+    V/F QUESTION: "V OR F Question 1 Example" (V); POINTS: (40);
+    V/F QUESTION: "V OR F Question 2 Example" (F); POINTS: (30);
+  }
+
+  SECTION "DIRECT ANSWER" {
+
+    DIRECT ANSWER QUESTION: "Direct Answer Question Example" ('Answer'); POINTS: (10);
+  }
+
+  SECTION "COMPLETE SPACES" {
+    COMPLETE SPACES QUESTION: "O meu nome e [[1]], e a minha idade [[2]]" ('Resposta', '5'); POINTS: (10);
+  }
+
+  SECTION "MATCHING" {
+    MATCHING QUESTION:
+    QUESTIONS {
+     "Question 1",
+     "Question 2",
+     "Question 3"
+     }
+    ANSWERS {
+    'Answer 1',
+    'Answer 2',
+    'Answer 3'
+    };
+
+    POINTS: (10);
+  }
+
+  SECTION "NUMERICAL" {
+    NUMERICAL QUESTION: "Numerical Question" (10-15); POINTS: (10);
+  }
+}

@@ -1,0 +1,20 @@
+@startuml
+actor Manager
+
+Manager -> ShowAllCoursesUI : show
+activate ShowAllCoursesUI
+ShowAllCoursesUI -> ListCourseController : listCourses
+activate ListCourseController
+database "CourseRepository" as CDB
+ListCourseController -> CDB : findAll
+activate CDB
+CDB --> ListCourseController
+deactivate CDB
+ListCourseController --> ShowAllCoursesUI
+deactivate ListCourseController
+ShowAllCoursesUI -> Course : toString
+activate Course
+Course --> ShowAllCoursesUI
+deactivate Course
+return
+@enduml

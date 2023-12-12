@@ -1,0 +1,37 @@
+@startuml
+class MainMenu {
+  + CreateCourseUI()()
+  + ListCourseAction()
+}
+
+class CreateCourseUI {
+  + doShow()
+}
+
+class ListCourseAction {
+  + execute()
+}
+
+class CourseRepository {
+  + findByCode()
+  + findAllActive()
+  + save()
+}
+
+class CreateCourseController {
+  + createCourse()
+}
+
+class ListCourseController {
+    + listCourse()
+    }
+
+
+MainMenu --|> ListCourseAction
+ListCourseAction --|> ListCourseController
+ListCourseController --|> CourseRepository
+MainMenu --|> CreateCourseUI
+CreateCourseUI --|> CreateCourseController
+CreateCourseController --|> CourseRepository
+
+@enduml

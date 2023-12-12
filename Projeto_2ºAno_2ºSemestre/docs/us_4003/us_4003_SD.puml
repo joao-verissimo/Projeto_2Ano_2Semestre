@@ -1,0 +1,275 @@
+@startuml
+participant Actor
+Actor -> EvaluateMeetingsUI : doShow
+activate EvaluateMeetingsUI
+create MeetingEvaluationController
+EvaluateMeetingsUI -> MeetingEvaluationController : new
+activate MeetingEvaluationController
+MeetingEvaluationController -> AuthzRegistry : authorizationService
+activate AuthzRegistry
+AuthzRegistry -> Invariants : nonNull
+activate Invariants
+Invariants --> AuthzRegistry
+deactivate Invariants
+AuthzRegistry --> MeetingEvaluationController
+deactivate AuthzRegistry
+MeetingEvaluationController --> EvaluateMeetingsUI
+deactivate MeetingEvaluationController
+EvaluateMeetingsUI -> MeetingEvaluationController : listMeetingAL
+activate MeetingEvaluationController
+MeetingEvaluationController -> DomainRepository : findAll
+activate DomainRepository
+DomainRepository --> MeetingEvaluationController
+deactivate DomainRepository
+MeetingEvaluationController --> EvaluateMeetingsUI
+deactivate MeetingEvaluationController
+EvaluateMeetingsUI -> MeetingEvaluationController : getUser
+activate MeetingEvaluationController
+MeetingEvaluationController -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService -> Optional : ofNullable
+activate Optional
+Optional --> AuthorizationService
+deactivate Optional
+AuthorizationService --> MeetingEvaluationController
+deactivate AuthorizationService
+MeetingEvaluationController -> Optional : get
+activate Optional
+Optional --> MeetingEvaluationController
+deactivate Optional
+MeetingEvaluationController -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> MeetingEvaluationController
+deactivate UserSession
+MeetingEvaluationController --> EvaluateMeetingsUI
+deactivate MeetingEvaluationController
+EvaluateMeetingsUI -> PrintStream : println
+activate PrintStream
+PrintStream --> EvaluateMeetingsUI
+deactivate PrintStream
+EvaluateMeetingsUI -> PrintStream : printf
+activate PrintStream
+PrintStream --> EvaluateMeetingsUI
+deactivate PrintStream
+EvaluateMeetingsUI -> MeetingAccessList : getInviteState
+activate MeetingAccessList
+MeetingAccessList --> EvaluateMeetingsUI
+deactivate MeetingAccessList
+EvaluateMeetingsUI -> Enum : equals
+activate Enum
+Enum --> EvaluateMeetingsUI
+deactivate Enum
+EvaluateMeetingsUI -> MeetingAccessList : getUser
+activate MeetingAccessList
+MeetingAccessList --> EvaluateMeetingsUI
+deactivate MeetingAccessList
+EvaluateMeetingsUI -> SystemUser : equals
+activate SystemUser
+SystemUser -> DomainEntities : areEqual
+activate DomainEntities
+DomainEntities --> SystemUser
+deactivate DomainEntities
+SystemUser --> EvaluateMeetingsUI
+deactivate SystemUser
+EvaluateMeetingsUI -> MeetingAccessList : getIdAccessList
+activate MeetingAccessList
+MeetingAccessList --> EvaluateMeetingsUI
+deactivate MeetingAccessList
+EvaluateMeetingsUI -> MeetingAccessList : getMeeting
+activate MeetingAccessList
+MeetingAccessList --> EvaluateMeetingsUI
+deactivate MeetingAccessList
+EvaluateMeetingsUI -> Meeting : getDate
+activate Meeting
+Meeting --> EvaluateMeetingsUI
+deactivate Meeting
+EvaluateMeetingsUI -> MeetingAccessList : getMeeting
+activate MeetingAccessList
+MeetingAccessList --> EvaluateMeetingsUI
+deactivate MeetingAccessList
+EvaluateMeetingsUI -> Meeting : getHour
+activate Meeting
+Meeting --> EvaluateMeetingsUI
+deactivate Meeting
+EvaluateMeetingsUI -> MeetingAccessList : getMeeting
+activate MeetingAccessList
+MeetingAccessList --> EvaluateMeetingsUI
+deactivate MeetingAccessList
+EvaluateMeetingsUI -> Meeting : getDuration
+activate Meeting
+Meeting --> EvaluateMeetingsUI
+deactivate Meeting
+EvaluateMeetingsUI -> PrintStream : printf
+activate PrintStream
+PrintStream --> EvaluateMeetingsUI
+deactivate PrintStream
+EvaluateMeetingsUI -> Console : readInteger
+activate Console
+Console --> EvaluateMeetingsUI
+deactivate Console
+EvaluateMeetingsUI -> Iterable : iterator
+activate Iterable
+Iterable --> EvaluateMeetingsUI
+deactivate Iterable
+EvaluateMeetingsUI -> Iterator : hasNext
+activate Iterator
+Iterator --> EvaluateMeetingsUI
+deactivate Iterator
+EvaluateMeetingsUI -> Iterator : next
+activate Iterator
+Iterator --> EvaluateMeetingsUI
+deactivate Iterator
+EvaluateMeetingsUI -> PrintStream : println
+activate PrintStream
+PrintStream --> EvaluateMeetingsUI
+deactivate PrintStream
+EvaluateMeetingsUI -> Console : readLine
+activate Console
+Console --> EvaluateMeetingsUI
+deactivate Console
+EvaluateMeetingsUI -> String : toUpperCase
+activate String
+String --> EvaluateMeetingsUI
+deactivate String
+EvaluateMeetingsUI -> MeetingEvaluationController : getUser
+activate MeetingEvaluationController
+MeetingEvaluationController -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService -> Optional : ofNullable
+activate Optional
+Optional --> AuthorizationService
+deactivate Optional
+AuthorizationService --> MeetingEvaluationController
+deactivate AuthorizationService
+MeetingEvaluationController -> Optional : get
+activate Optional
+Optional --> MeetingEvaluationController
+deactivate Optional
+MeetingEvaluationController -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> MeetingEvaluationController
+deactivate UserSession
+MeetingEvaluationController --> EvaluateMeetingsUI
+deactivate MeetingEvaluationController
+EvaluateMeetingsUI -> MeetingEvaluationController : alterStateA
+activate MeetingEvaluationController
+MeetingEvaluationController -> MeetingALRepository : alterStateA
+activate MeetingALRepository
+MeetingALRepository --> MeetingEvaluationController
+deactivate MeetingALRepository
+MeetingEvaluationController --> EvaluateMeetingsUI
+deactivate MeetingEvaluationController
+EvaluateMeetingsUI -> DomainRepository : save
+activate DomainRepository
+DomainRepository --> EvaluateMeetingsUI
+deactivate DomainRepository
+EvaluateMeetingsUI -> MeetingEvaluationController : getUser
+activate MeetingEvaluationController
+MeetingEvaluationController -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService -> Optional : ofNullable
+activate Optional
+Optional --> AuthorizationService
+deactivate Optional
+AuthorizationService --> MeetingEvaluationController
+deactivate AuthorizationService
+MeetingEvaluationController -> Optional : get
+activate Optional
+Optional --> MeetingEvaluationController
+deactivate Optional
+MeetingEvaluationController -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> MeetingEvaluationController
+deactivate UserSession
+MeetingEvaluationController --> EvaluateMeetingsUI
+deactivate MeetingEvaluationController
+EvaluateMeetingsUI -> SystemUser : name
+activate SystemUser
+SystemUser --> EvaluateMeetingsUI
+deactivate SystemUser
+EvaluateMeetingsUI -> PrintStream : println
+activate PrintStream
+PrintStream --> EvaluateMeetingsUI
+deactivate PrintStream
+EvaluateMeetingsUI -> Throwable : getMessage
+activate Throwable
+Throwable --> EvaluateMeetingsUI
+deactivate Throwable
+EvaluateMeetingsUI -> PrintStream : println
+activate PrintStream
+PrintStream --> EvaluateMeetingsUI
+deactivate PrintStream
+EvaluateMeetingsUI -> MeetingEvaluationController : getUser
+activate MeetingEvaluationController
+MeetingEvaluationController -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService -> Optional : ofNullable
+activate Optional
+Optional --> AuthorizationService
+deactivate Optional
+AuthorizationService --> MeetingEvaluationController
+deactivate AuthorizationService
+MeetingEvaluationController -> Optional : get
+activate Optional
+Optional --> MeetingEvaluationController
+deactivate Optional
+MeetingEvaluationController -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> MeetingEvaluationController
+deactivate UserSession
+MeetingEvaluationController --> EvaluateMeetingsUI
+deactivate MeetingEvaluationController
+EvaluateMeetingsUI -> MeetingEvaluationController : alterStateD
+activate MeetingEvaluationController
+MeetingEvaluationController -> MeetingALRepository : alterStateD
+activate MeetingALRepository
+MeetingALRepository --> MeetingEvaluationController
+deactivate MeetingALRepository
+MeetingEvaluationController --> EvaluateMeetingsUI
+deactivate MeetingEvaluationController
+EvaluateMeetingsUI -> DomainRepository : save
+activate DomainRepository
+DomainRepository --> EvaluateMeetingsUI
+deactivate DomainRepository
+EvaluateMeetingsUI -> MeetingEvaluationController : getUser
+activate MeetingEvaluationController
+MeetingEvaluationController -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService -> Optional : ofNullable
+activate Optional
+Optional --> AuthorizationService
+deactivate Optional
+AuthorizationService --> MeetingEvaluationController
+deactivate AuthorizationService
+MeetingEvaluationController -> Optional : get
+activate Optional
+Optional --> MeetingEvaluationController
+deactivate Optional
+MeetingEvaluationController -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> MeetingEvaluationController
+deactivate UserSession
+MeetingEvaluationController --> EvaluateMeetingsUI
+deactivate MeetingEvaluationController
+EvaluateMeetingsUI -> SystemUser : name
+activate SystemUser
+SystemUser --> EvaluateMeetingsUI
+deactivate SystemUser
+EvaluateMeetingsUI -> PrintStream : println
+activate PrintStream
+PrintStream --> EvaluateMeetingsUI
+deactivate PrintStream
+EvaluateMeetingsUI -> Throwable : getMessage
+activate Throwable
+Throwable --> EvaluateMeetingsUI
+deactivate Throwable
+EvaluateMeetingsUI -> PrintStream : println
+activate PrintStream
+PrintStream --> EvaluateMeetingsUI
+deactivate PrintStream
+EvaluateMeetingsUI -> PrintStream : println
+activate PrintStream
+PrintStream --> EvaluateMeetingsUI
+deactivate PrintStream
+return
+@enduml

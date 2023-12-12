@@ -1,0 +1,41 @@
+@startuml
+class User {
+}
+
+class BoardRepository {
+    +createBoard(int rows, int columns, final SystemUser owner) : boolean
+}
+
+class CreateBoardUI {
+    +doShow() : boolean
+    +headline() : String
+}
+
+class CreateBoardController {
+    -CreateBoardService service
+    -AuthorizationService authz
+    +createBoard(int rows, int columns) : boolean
+}
+
+class CreateBoardService {
+    -BoardRepository br
+    +createBoard(int rows, int columns, final SystemUser owner) : boolean
+}
+
+class SharedBoard {
+    - Long idBoard;
+    - NumRows numRows;
+    - NumColumns numColumns;
+    - SystemUser admin;
+    - List<SystemUser> userList;
+    + sameAs(Object other) : boolean
+    + identity() : Code
+    + compareTo(Long other) : int
+}
+
+User --> CreateBoardUI
+CreateBoardUI --> CreateBoardController
+CreateBoardController --> CreateBoardService
+CreateBoardService --> BoardRepository
+BoardRepository --> SharedBoard
+@enduml

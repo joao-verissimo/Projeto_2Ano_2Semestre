@@ -1,0 +1,29 @@
+@startuml
+class ShowNextExamsUI <<presentation>>{
++doShow()
+}
+
+class ShowNextExamsController <<application>> {
++showNextExams(student)
+}
+
+class ExamManagementService <<application>> {
++showNextExams(student)
+}
+
+class Exam <<domain>> {
+
+}
+
+class ExamRepository <<repository>> {
++showNextExams(student)
+
+}
+
+ShowNextExamsUI --> ShowNextExamsController
+ShowNextExamsController --> ExamManagementService
+ExamManagementService --> Exam
+ExamManagementService --> ExamRepository
+
+
+@enduml

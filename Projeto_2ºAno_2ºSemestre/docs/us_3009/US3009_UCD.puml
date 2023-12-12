@@ -1,0 +1,8 @@
+@startuml
+
+:User: as User
+
+User   -> (View the history of updates on a board)
+
+
+@enduml

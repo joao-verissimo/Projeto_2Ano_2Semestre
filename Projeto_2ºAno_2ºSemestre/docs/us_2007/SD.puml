@@ -1,0 +1,49 @@
+@startuml
+autonumber
+'hide footbox
+actor "Teacher" as teacher
+
+participant ":AddQuestionsUI" as ui
+participant ":AddQuestionsController" as ctrl
+participant ":AddQuestionsService" as srvc
+
+database ":QuestionsRepository" as repo
+
+activate teacher
+
+teacher -> ui: show()
+activate ui
+
+ui -> ui: doShow()
+
+
+
+ui -> ctrl : addQuestions(user input)
+activate ctrl
+
+ctrl -> srvc: create()
+activate srvc
+
+ctrl -> srvc: addQuestions(user input)
+
+srvc -> repo: create()
+activate repo
+srvc -> repo: addQuestions(user input)
+srvc -> repo: save(user input)
+deactivate repo
+
+srvc --> ctrl: return operation success or in-success
+deactivate srvc
+
+ctrl --> ui: srvc --> ctrl: return operation success or in-success
+
+deactivate ctrl
+
+
+ui --> teacher: return operation success or in-success
+deactivate ui
+
+
+
+
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+
+:Student: as Student
+
+Student -> (I want to view a list of my future exams)
+
+
+@enduml

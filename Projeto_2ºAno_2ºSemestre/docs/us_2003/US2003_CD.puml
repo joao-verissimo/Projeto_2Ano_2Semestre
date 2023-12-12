@@ -1,0 +1,52 @@
+@startuml
+class Teacher {
+}
+
+class ExamsRepository {
+    +findAll(): Iterable<Exam>
+    +findByCourse(String course) : List<Exam>
+    +findByCode(String code) : Exam
+    +appendStudent(Student student, Exam examCode) : void
+}
+
+class ListExamsCourseUI {
+    +doShow() : boolean
+    +headline() : String
+}
+
+class ListExamsCourseController {
+    -ListExamsCourseService service
+    +listAllExams(String course) : List<Exam>
+}
+
+class ListExamsCourseService {
+    -ExamRepository examRepository
+    +listAllExams(String course) : List<Exam>
+}
+
+class Exam {
+    - Long id
+    - List<Question> questions
+    - Date date
+    - Description description
+    - SequenceofSections sequenceofSections
+    - Title title
+    - Course course
+    + appendStudent(Student student) : void
+    + getCourse() : Course
+    + getDate() : Date
+    + getDescription() : Description
+    + getSequenceofSections() : SequenceofSections
+    + getTitle() : Title
+    + getStudent() : List<Student>
+    + sameAs(Object other) : boolean
+    + identity() : Code
+    + toString() : String
+}
+
+Teacher --> ListExamsCourseUI
+ListExamsCourseUI --> ListExamsCourseController
+ListExamsCourseController --> ListExamsCourseService
+ListExamsCourseService --> ExamsRepository
+ExamsRepository --> Exam
+@enduml

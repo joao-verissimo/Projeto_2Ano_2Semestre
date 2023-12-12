@@ -1,0 +1,83 @@
+@startuml
+autonumber
+actor "User" as U
+participant "StatusParticipantsMeetingUI" as UI
+participant "MeetingParticipantsController" as CTL
+participant "AuthorizationService" as AS
+participant "Persistence Context" as PC
+participant "RepositoryFactory" as RF
+participant "JpaMeetingRepository" as JPAM
+participant "JpaMeetingALRepository" as JPAAL
+database "MeetingRepository" as MRPS
+database "MeetingALRepository" as MALRPS
+
+activate U
+U -> UI : want to see the status of the participants of a meeting
+activate UI
+UI -> CTL : MeetingParticipantsController()
+activate CTL
+CTL -> AS : userService()
+activate AS
+CTL -> PC :repositories()
+deactivate AS
+activate PC
+PC -> RF :getRepositoryFactory()
+activate RF
+RF -> MRPS : meetingRepository()
+activate MRPS
+RF -> MALRPS : meetingAlRepository()
+deactivate MRPS
+activate MALRPS
+deactivate RF
+PC --> CTL : factory
+deactivate MALRPS
+deactivate CTL
+deactivate MRPS
+deactivate PC
+deactivate RF
+UI -> CTL : userMeetings()
+activate CTL
+CTL -> JPAM : allUserMeetings(String userEmail)
+activate JPAM
+JPAM -> MALRPS : list = query()
+activate MALRPS
+loop foreach(list)
+    deactivate MALRPS
+    JPAM -> MRPS : tempList = query
+    activate MRPS
+    JPAM -> JPAM : resultList.addAll(tempList)
+    deactivate MRPS
+end
+deactivate MRPS
+JPAM --> CTL : returns list
+deactivate JPAM
+CTL --> UI : returns list
+deactivate CTL
+UI --> U : asks user from what meeting he wants to see users status
+deactivate UI
+
+
+U -> UI : chooses meeting
+activate UI
+UI -> CTL : meetingParticipants(Meeting)
+activate CTL
+CTL -> JPAAL : usersState(Meeting)
+
+activate JPAAL
+JPAAL -> MALRPS : list = query()
+activate MALRPS
+JPAAL -> CTL : returns list
+deactivate JPAAL
+deactivate MALRPS
+deactivate MRPS
+CTL -> UI : returns list
+deactivate CTL
+
+alt exception is thrown
+    UI --> U : Informs that an error has occurred
+else
+    UI --> U : Shows participants and respective status
+end alt
+deactivate UI
+deactivate U
+@enduml

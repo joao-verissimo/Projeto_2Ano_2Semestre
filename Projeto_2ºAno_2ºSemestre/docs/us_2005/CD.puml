@@ -1,0 +1,29 @@
+@startuml
+class ShowGradesUI <<presentation>>{
++doShow()
+}
+
+class ShowGradesController <<application>> {
++showGrades()
+}
+
+class GradeManagementService <<application>> {
++showGrades()
+}
+
+class Grade <<domain>> {
+
+}
+
+class GradeRepository <<repository>> {
++showGrades()
+
+}
+
+ShowGradesUI --> ShowGradesController
+ShowGradesController --> GradeManagementService
+GradeManagementService --> Grade
+GradeManagementService --> GradeRepository
+
+
+@enduml

@@ -1,0 +1,50 @@
+@startuml
+
+class TCPClient <<presentation>>{
+
+}
+
+class TCPServer {
++shareABoard(board, user, state)
+}
+
+class ShareAShareBoardUI<<presentation>> {
++chooseState()
+}
+
+class ShareAShareBoardController <<application>> {
++findBoardOwned(email)
++findActiveUsers()
++appendNewUser(board,user,state)
+}
+
+class BoardManagementService <<application>> {
++appendNewUser(board, user, state)
+
+}
+
+class BoardRepository <<repository>>{
++appendNewUser(board, user, state)
++findBoardOwned(email)
+}
+
+class UserRepository <<repository>>{
++findActiveUsers()
+}
+
+class Board <<domain>>{
+
+}
+
+TCPClient --> TCPServer
+TCPClient --> ShareAShareBoardUI
+TCPServer --> ShareAShareBoardController
+ShareAShareBoardController --> BoardManagementService
+ShareAShareBoardController --> BoardRepository
+BoardManagementService --> UserRepository
+BoardManagementService --> BoardRepository
+BoardManagementService --> Board
+
+
+
+@enduml

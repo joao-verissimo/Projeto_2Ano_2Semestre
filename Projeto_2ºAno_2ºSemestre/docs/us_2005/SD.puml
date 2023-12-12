@@ -1,0 +1,47 @@
+@startuml
+autonumber
+'hide footbox
+actor "Student" as student
+
+participant ":ShowGradesUI" as ui
+participant ":ShowGradesController" as ctrl
+participant ":ShowGradesService" as srvc
+
+database ":GradesRepository" as repo
+
+activate student
+
+student -> ui: show()
+activate ui
+
+ui -> ui: doShow()
+
+
+
+ui -> ctrl : showGrades()
+activate ctrl
+
+ctrl -> srvc: create()
+activate srvc
+
+ctrl -> srvc: showGrades()
+
+srvc -> repo: create()
+activate repo
+srvc -> repo: showGrades()
+deactivate repo
+
+srvc --> ctrl: return exams list
+deactivate srvc
+
+ctrl --> ui: return grades list
+deactivate ctrl
+
+
+ui --> student:
+deactivate ui
+
+
+
+
+@enduml

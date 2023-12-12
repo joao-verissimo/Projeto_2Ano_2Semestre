@@ -1,0 +1,8 @@
+@startuml
+
+:Teacher: as Teacher
+
+Teacher -> (Update the schedule of a class )
+
+
+@enduml

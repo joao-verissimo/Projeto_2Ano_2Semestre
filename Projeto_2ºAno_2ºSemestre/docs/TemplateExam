@@ -1,0 +1,60 @@
+Matching -
+Match the countries with their capitals:
+1
+.
+France
+2
+.
+Brazil
+3
+.
+Japan
+
+A
+.
+Tokyo
+B
+.
+Paris
+C
+.
+Brasilia
+
+R:
+1-B,2-C,3-A
+
+
+Single-Answer -
+Which planet is known as the Red Planet?
+A. Venus
+B. Mars
+C. Jupiter
+D. Saturn
+R:
+B
+
+Short Answer -
+Pergunta teste short?
+R:
+Simtestado
+
+
+Numerical -
+Qual é o numero de pi?
+R:
+3
+-
+4
+
+Select Missing Words -
+Qual é a
+[
+Palavra
+]
+que falta
+
+
+True/False -
+Está bem feito o grammer?
+R:
+T

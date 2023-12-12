@@ -1,0 +1,64 @@
+@startuml
+class UndoPostItUI {
+  + UndoPostIt(String boardList) : String
+  + showBoards(boards, boardList): boolean
+  + buildBoardsMenu(boards, boardList): Menu
+}
+
+class UndoPostItController {
+  - svc : BoardManagementService
+  + undoPostIt (String email, String row, String column, String idBoard) : boolean
+}
+
+class BoardManagementService {
+  - repoB: BoardRepository
+  - repoP: PostItRepository
+  - repoU: UserRepository
+  + addPostIt(String email,String data, String rowS,String columnS, String boardId) : boolean
+  + appendNewUser(String email, String stateId, String sharedBoardId) : boolean
+  + ModifyPostIt(String email,String data, String rowS,String columnS, String boardId) : boolean
+  + findBoardPresent(String email) : List<SharedBoard>
+  + findPostIts(Long bordId) : List<PostIts>
+  + undoPostIt(String email, int row, int column, int idBoard) : boolean
+}
+
+class JpaPostItRepository {
+  + findPostItByBoardId(idboard: Long) : List<PostIts>
+  + alterstate(post: PostIts) : void
+  + getactivepost(numColums: int, numRows: int) : PostIts
+  + undoPostIt(String email, int row, int column, int idBoard) : void
+}
+
+class JpaBoardRepository {
+  + appendUser(user: SystemUser, state: State, board: SharedBoard) : void
+  + createBoard(rows: int, columns: int, owner: SystemUser, state: State) : boolean
+  + findBoardOwned(email: String) : List<SharedBoard>
+  + findBoardPresentWrite(email: String) : List<SharedBoard>
+  + findBoardById(id: Long) : SharedBoard
+  + archiveBoard(boardId: Long) : void
+  + findUsersPresent(Long idboard) : List<SystemUserAuth>
+}
+
+class TCPClient {
+  + connect(serverAddress: String, port: int): void
+  + sendRequest(request: String): void
+  + receiveResponse(): String
+  + closeConnection(): void
+}
+
+class TCPServer {
+  + startListening(port: int): void
+  + acceptConnection(): void
+  + receiveRequest(): String
+  + sendResponse(response: String): void
+  + closeConnection(): void
+}
+
+UndoPostItUI --> UndoPostItController
+UndoPostItController --> BoardManagementService
+BoardManagementService --> JpaPostItRepository
+BoardManagementService --> JpaBoardRepository
+TCPClient --> TCPServer
+
+@enduml
+

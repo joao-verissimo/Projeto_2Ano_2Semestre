@@ -1,0 +1,37 @@
+@startuml
+class Actor
+class ShowBoardHistoryUI
+class ShowBoardHistoryController
+class AuthorizationService
+class UserSession
+class SystemUserAuth
+class BoardRepository
+class PostItRepository
+class PostIts
+class NumRows
+class NumColumns
+class Name
+
+Actor --> ShowBoardHistoryUI
+ShowBoardHistoryUI --> ShowBoardHistoryController
+ShowBoardHistoryController --> AuthorizationService
+ShowBoardHistoryController --> UserSession
+ShowBoardHistoryController --> SystemUserAuth
+ShowBoardHistoryController --> BoardRepository
+ShowBoardHistoryController --> PostItRepository
+ShowBoardHistoryController --> PostIts
+ShowBoardHistoryController --> NumRows
+ShowBoardHistoryController --> NumColumns
+ShowBoardHistoryController --> Name
+
+AuthorizationService --> ShowBoardHistoryController
+UserSession --> ShowBoardHistoryController
+SystemUserAuth --> ShowBoardHistoryController
+BoardRepository --> ShowBoardHistoryController
+PostItRepository --> ShowBoardHistoryController
+PostIts --> ShowBoardHistoryController
+NumRows --> ShowBoardHistoryController
+NumColumns --> ShowBoardHistoryController
+Name --> ShowBoardHistoryController
+
+@enduml

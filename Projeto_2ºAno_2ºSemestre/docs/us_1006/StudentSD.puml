@@ -1,0 +1,151 @@
+@startuml
+actor Student
+database "CourseRepository" as CDB
+database "StudentRepository" as SDB
+Student -> ShowCoursesAvailableUI : doShow
+activate ShowCoursesAvailableUI
+ShowCoursesAvailableUI -> ShowCoursesAvailableController : showActiveCourses
+activate ShowCoursesAvailableController
+ShowCoursesAvailableController -> AuthorizationService : ensureAuthenticatedUserHasAnyOf
+activate AuthorizationService
+AuthorizationService -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService --> AuthorizationService
+deactivate AuthorizationService
+AuthorizationService -> AuthorizationService : () ->
+activate AuthorizationService
+create UnauthenticatedException
+AuthorizationService -> UnauthenticatedException : new
+activate UnauthenticatedException
+UnauthenticatedException --> AuthorizationService
+deactivate UnauthenticatedException
+AuthorizationService --> AuthorizationService
+deactivate AuthorizationService
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+AuthorizationService -> SystemUser : hasAny
+activate SystemUser
+SystemUser -> RoleSet : hasAssignment
+activate RoleSet
+RoleSet --> SystemUser
+deactivate RoleSet
+SystemUser --> AuthorizationService
+deactivate SystemUser
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+AuthorizationService -> SystemUser : email
+activate SystemUser
+SystemUser --> AuthorizationService
+deactivate SystemUser
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+create UnauthorizedException
+AuthorizationService -> UnauthorizedException : new
+activate UnauthorizedException
+UnauthorizedException -> UnauthorizedException : buildMessage
+activate UnauthorizedException
+UnauthorizedException --> UnauthorizedException
+deactivate UnauthorizedException
+UnauthorizedException --> AuthorizationService
+deactivate UnauthorizedException
+AuthorizationService --> ShowCoursesAvailableController
+deactivate AuthorizationService
+ShowCoursesAvailableController -> CourseManagementService : findAllActive
+activate CourseManagementService
+CourseManagementService -> CDB : findAllActive
+activate CDB
+CDB --> CourseManagementService
+deactivate CDB
+CourseManagementService --> ShowCoursesAvailableController
+deactivate CourseManagementService
+ShowCoursesAvailableController --> ShowCoursesAvailableUI
+deactivate ShowCoursesAvailableController
+ShowCoursesAvailableUI -> ShowCoursesAvailableController : showCoursesEnrolled
+activate ShowCoursesAvailableController
+ShowCoursesAvailableController -> AuthorizationService : ensureAuthenticatedUserHasAnyOf
+activate AuthorizationService
+AuthorizationService -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService --> AuthorizationService
+deactivate AuthorizationService
+AuthorizationService -> AuthorizationService : () ->
+activate AuthorizationService
+create UnauthenticatedException
+AuthorizationService -> UnauthenticatedException : new
+activate UnauthenticatedException
+UnauthenticatedException --> AuthorizationService
+deactivate UnauthenticatedException
+AuthorizationService --> AuthorizationService
+deactivate AuthorizationService
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+AuthorizationService -> SystemUser : hasAny
+activate SystemUser
+SystemUser -> RoleSet : hasAssignment
+activate RoleSet
+RoleSet --> SystemUser
+deactivate RoleSet
+SystemUser --> AuthorizationService
+deactivate SystemUser
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+AuthorizationService -> SystemUser : email
+activate SystemUser
+SystemUser --> AuthorizationService
+deactivate SystemUser
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+create UnauthorizedException
+AuthorizationService -> UnauthorizedException : new
+activate UnauthorizedException
+UnauthorizedException -> UnauthorizedException : buildMessage
+activate UnauthorizedException
+UnauthorizedException --> UnauthorizedException
+deactivate UnauthorizedException
+UnauthorizedException --> AuthorizationService
+deactivate UnauthorizedException
+AuthorizationService --> ShowCoursesAvailableController
+deactivate AuthorizationService
+ShowCoursesAvailableController -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService --> ShowCoursesAvailableController
+deactivate AuthorizationService
+
+ShowCoursesAvailableController -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> ShowCoursesAvailableController
+deactivate UserSession
+ShowCoursesAvailableController -> SystemUser : email
+activate SystemUser
+SystemUser --> ShowCoursesAvailableController
+deactivate SystemUser
+
+ShowCoursesAvailableController -> SDB : findStudentByEmail
+activate SDB
+SDB --> ShowCoursesAvailableController
+deactivate SDB
+ShowCoursesAvailableController -> CourseManagementService : findEnrollStateCourses
+
+activate CourseManagementService
+CourseManagementService -> CDB : findEnrollStateCourses
+activate CDB
+CDB --> CourseManagementService
+deactivate CDB
+CourseManagementService --> ShowCoursesAvailableController
+deactivate CourseManagementService
+ShowCoursesAvailableController --> ShowCoursesAvailableUI
+deactivate ShowCoursesAvailableController
+return
+@enduml

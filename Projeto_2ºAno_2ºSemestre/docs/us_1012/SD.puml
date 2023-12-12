@@ -1,0 +1,131 @@
+@startuml
+actor Teacher
+participant UpadateClassUI
+participant UpdateClassController
+participant UpdateClassService
+participant AuthorizationService
+participant UserSession
+participant SystemUser
+participant Acronym
+database "TeacherRepository" as TDB
+database "ClassRepository" as CDB
+
+
+Teacher -> UpadateClassUI : doShow
+activate UpadateClassUI
+UpadateClassUI -> UpadateClassUI : myClassMenu
+UpadateClassUI -> UpdateClassController : showMyClasses
+activate UpdateClassController
+UpdateClassController -> UpdateClassService : showMyClasses
+activate UpdateClassService
+UpdateClassService -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService --> UpdateClassService
+deactivate AuthorizationService
+UpdateClassService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> UpdateClassService
+deactivate UserSession
+UpdateClassService -> SystemUser : email
+activate SystemUser
+SystemUser --> UpdateClassService
+deactivate SystemUser
+UpdateClassService -> TDB : findTeacherByEmail
+activate TDB
+TDB --> UpdateClassService
+deactivate TDB
+UpdateClassService -> Acronym : toString
+activate Acronym
+Acronym --> UpdateClassService
+deactivate Acronym
+UpdateClassService -> CDB : findAllClassesByAcronym
+activate CDB
+CDB --> UpdateClassService
+deactivate CDB
+UpdateClassService --> UpdateClassController
+deactivate UpdateClassService
+UpdateClassController --> UpadateClassUI
+deactivate UpdateClassController
+UpadateClassUI -> UpadateClassUI : showDays
+UpadateClassUI -> UpadateClassUI : buildDaysMenu
+UpadateClassUI -> UpdateClassController : updateClass
+activate UpdateClassController
+UpdateClassController -> AuthorizationService : ensureAuthenticatedUserHasAnyOf
+activate AuthorizationService
+AuthorizationService -> AuthorizationService : session
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+AuthorizationService -> SystemUser : hasAny
+activate SystemUser
+SystemUser -> RoleSet : hasAssignment
+activate RoleSet
+RoleSet --> SystemUser
+deactivate RoleSet
+SystemUser --> AuthorizationService
+deactivate SystemUser
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+AuthorizationService -> SystemUser : email
+activate SystemUser
+SystemUser --> AuthorizationService
+deactivate SystemUser
+AuthorizationService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> AuthorizationService
+deactivate UserSession
+AuthorizationService -> UnauthorizedException : new
+activate UnauthorizedException
+UnauthorizedException -> UnauthorizedException : buildMessage
+UnauthorizedException --> UnauthorizedException
+deactivate UnauthorizedException
+UnauthorizedException --> AuthorizationService
+deactivate UnauthorizedException
+AuthorizationService --> UpdateClassController
+deactivate AuthorizationService
+UpdateClassController -> UpdateClassService : update
+activate UpdateClassService
+UpdateClassService -> UpdateClassService : findClassById
+UpdateClassService -> CDB : findClassById
+activate CDB
+CDB --> UpdateClassService
+deactivate CDB
+UpdateClassService -> AuthorizationService : session
+activate AuthorizationService
+AuthorizationService --> UpdateClassService
+deactivate AuthorizationService
+UpdateClassService -> UserSession : authenticatedUser
+activate UserSession
+UserSession --> UpdateClassService
+deactivate UserSession
+UpdateClassService -> SystemUser : email
+activate SystemUser
+SystemUser --> UpdateClassService
+deactivate SystemUser
+UpdateClassService -> TDB : findTeacherByEmail
+activate TDB
+TDB --> UpdateClassService
+deactivate TDB
+UpdateClassService -> Acronym : toString
+activate Acronym
+Acronym --> UpdateClassService
+deactivate Acronym
+UpdateClassService -> CDB : findAllClassesByAcronym
+activate CDB
+CDB --> UpdateClassService
+deactivate CDB
+UpdateClassService -> UpdateClassService : isBetween
+UpdateClassService -> UpdateClassService : isBetween
+UpdateClassService -> UpdateClassService : areAllTrue
+UpdateClassService -> CDB : setUpdateClass
+activate CDB
+CDB --> UpdateClassService
+deactivate CDB
+UpdateClassService --> UpdateClassController
+deactivate UpdateClassService
+UpdateClassController --> UpadateClassUI
+deactivate UpdateClassController
+@enduml

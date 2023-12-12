@@ -1,0 +1,65 @@
+<html>
+<head>
+    <title>HTTP demo</title>
+    <script src="rcomp-ajax.js"></script>
+</head>
+<body bgcolor=#C0C0C0 onload="refreshVotes()">
+<h1>HTTP server demo - Voting with AJAX</h1>
+<h3>Java version</h3>
+<hr>
+<center>
+    <!-- Login Form -->
+    <form id="loginForm" onsubmit="submitLoginForm(event)">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="submit">Login</button>
+    </form>
+    <div id="votes" style="display: none;">
+        Please wait, loading voting results ...
+    </div>
+</center>
+<hr>
+<center>
+    <table border=0>
+        <tr>
+            <td align=center>
+                Image contents are supported:<br><br>
+                <img src=http2.png><br>(http2.png)
+            </td>
+            <td align=center>
+                <img src=http.gif><br>(http.gif)
+            </td>
+        </tr>
+    </table>
+</center>
+<script>
+    // Submit the login form
+    function submitLoginForm(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get the form values
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        // Make an AJAX request to the server for login validation
+        var request = new XMLHttpRequest();
+        request.onload = function() {
+            if (request.status === 200) {
+                // Successful login
+                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("votes").style.display = "block";
+                refreshVotes(); // Start loading voting results
+            } else {
+                // Invalid login
+                alert("Invalid username or password. Please try again.");
+            }
+        };
+        request.open("POST", "/login", true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(JSON.stringify({ username: username, password: password }));
+    }
+</script>
+</body>
+</html>
